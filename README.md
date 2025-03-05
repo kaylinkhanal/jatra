@@ -1,4 +1,5 @@
 # Jatra MERN App
+-> ALL IN ONE EVENT MANAGEMENT PLATFORM
 
 This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application designed for managing and showcasing events, specifically focusing on "Jatra" (festivals/events).
 
