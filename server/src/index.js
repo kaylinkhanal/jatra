@@ -9,7 +9,6 @@ dbConnect()
 app.use(UserRoute)
 
 
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

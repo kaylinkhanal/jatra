@@ -5,15 +5,38 @@ This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application d
 
 ## Features
 
-* **User Authentication:**
+* **User:**
     * [x] Login
-    * [x] Register
-* **Event Management:**
-    * [ ] Event Add
+    * [x] Register  -> password hashing (bcrypt)
+    * [ ] Logout 
+    * [ ] Forgot Password -> email (nodemailer)
+    * [ ] Change Password 
+    * [ ] Bio update 
+    * [ ] Artist/ event management company verification 
+
+* **Venue:**
+    * [ ] Add Venues: 
+        **Seat Type :** [vvip, vip, normal, free]
+            - type of seat
+            - capacity
+    - Venue design
+
+* **Event:**
+    * [ ] Event Calendar View
+    * [ ] Event time slots and request for event booking (ticket number, event name, date, time, venue, security, stalls)
+    * [ ] Event Approval by Admin
     * [ ] Event Delete
     * [x] Event View
+    * [ ] 
 
-## Tech Stack
+* **Shop:**
+  * [ ] Wishlist, add to cart
+
+
+* **Notifications:**
+  * [ ] nearby event notification
+  * [ ] last hour sale notification
+
 
 * **Frontend:**
     * React.js
