@@ -5,8 +5,10 @@ This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application d
 
 ## Features
 
+
 * **User:**
     * [x] Login
+    * [ ] Preference
     * [x] Register  -> password hashing (bcrypt)
     * [ ] Logout 
     * [ ] Forgot Password -> email (nodemailer)
@@ -20,6 +22,7 @@ This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application d
             - type of seat
             - capacity
     - Venue design
+    - Google maps
 
 * **Event:**
     * [ ] Event Calendar View
