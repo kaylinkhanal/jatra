@@ -1,7 +1,8 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -14,16 +15,26 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
   dateOfBirth: Yup.date().nullable(),
   gender: Yup.string().oneOf(['male', 'female', 'other', 'prefer not to say']),
-  interests: Yup.array().of(Yup.string()),
-  facebook: Yup.string().url('Invalid URL'),
-  twitter: Yup.string().url('Invalid URL'),
-  instagram: Yup.string().url('Invalid URL'),
-  linkedin: Yup.string().url('Invalid URL'),
-  bio: Yup.string(),
 });
 
-export const Register = () => (
-  <div>
+export const Register = () => {
+  const [loading, setLoading] = useState(false)
+  const handleRegister = async (values)=>{
+    try{
+      setLoading(true)
+      const {data} = await axios.post(`http://localhost:9000/register`,values)
+      if(data){
+       setLoading(false)
+       alert(data.msg)}
+    }catch(err){
+      setLoading(false)
+      alert(err.message)
+    }
+  }
+
+
+  return(
+  <div className='bg-amber-200 m-4 flex flex-col'>
     <h1>Register</h1>
     <Formik
       initialValues={{
@@ -43,8 +54,7 @@ export const Register = () => (
       }}
       validationSchema={SignupSchema}
       onSubmit={values => {
-        // same shape as initial values
-        console.log(values);
+        handleRegister(values)
       }}
     >
       {({ errors, touched, setFieldValue }) => (
@@ -82,48 +92,14 @@ export const Register = () => (
           </Field>
           {errors.gender && touched.gender ? <div>{errors.gender}</div> : null}
 
-          <label htmlFor="interests">Interests (comma-separated)</label>
-          <Field
-            name="interests"
-            render={({ field }) => (
-              <input
-                {...field}
-                value={field.value.join(', ')}
-                onChange={(e) => {
-                  const interests = e.target.value.split(',').map((item) => item.trim());
-                  setFieldValue('interests', interests);
-                }}
-              />
-            )}
-          />
-          {errors.interests && touched.interests ? <div>{errors.interests}</div> : null}
+ 
 
-          <label htmlFor="facebook">Facebook</label>
-          <Field name="facebook" />
-          {errors.facebook && touched.facebook ? <div>{errors.facebook}</div> : null}
-
-          <label htmlFor="twitter">Twitter</label>
-          <Field name="twitter" />
-          {errors.twitter && touched.twitter ? <div>{errors.twitter}</div> : null}
-
-          <label htmlFor="instagram">Instagram</label>
-          <Field name="instagram" />
-          {errors.instagram && touched.instagram ? <div>{errors.instagram}</div> : null}
-
-          <label htmlFor="linkedin">LinkedIn</label>
-          <Field name="linkedin" />
-          {errors.linkedin && touched.linkedin ? <div>{errors.linkedin}</div> : null}
-
-          <label htmlFor="bio">Bio</label>
-          <Field as="textarea" name="bio" />
-          {errors.bio && touched.bio ? <div>{errors.bio}</div> : null}
-
-          <button type="submit">Submit</button>
+          <button type="submit">{loading ? '...': 'Submit'}</button>
         </Form>
       )}
     </Formik>
   </div>
-);
+)};
 
 
 export default Register
