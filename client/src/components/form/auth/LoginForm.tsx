@@ -8,9 +8,25 @@ import { useFormik } from "formik";
 import LoginSchema from "@/schema/LoginSchema";
 import { useState } from "react";
 import ForgetPasswordModel from "./ForgetPasswordModel";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter()
 
+  const handleLogin = async(values:any)=>{
+    try{
+      const res = await axios.post('http://localhost:9000/login', values)
+      if(res.status == 200) {
+       toast.success(res.data.msg)
+       router.push('/dashboard')
+      }
+    }catch(err:any){
+      toast.error(err.response?.data?.msg)
+    }
+
+   }
   const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -19,8 +35,7 @@ const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      console.log("Form submitted", values);
-      // Handle login logic here
+      handleLogin(values)
     },
   });
 

@@ -6,8 +6,20 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useFormik } from "formik";
 import RegisterSchema from "@/schema/RegisterSchema";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter()
+
+  const handleRegister = async(values:any)=>{
+   const res = await axios.post('http://localhost:9000/register', values)
+   if(res.status == 200) {
+    toast.success(res.data.msg)
+    router.push('/login')
+   }
+  }
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -18,8 +30,8 @@ const RegisterForm = () => {
     },
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
-      console.log("Form submitted", values);
-      // Handle signup logic here
+
+     handleRegister(values)
     },
   });
 

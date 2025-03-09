@@ -20,7 +20,7 @@ const RegisterSchema = Yup.object({
     .matches(/^[0-9]*$/, "Phone number must contain only digits")
     .required("Phone number is required"),
   
-  dateOfBirth: Yup
+  dob: Yup
     .date()
     .max(new Date(), "Date of birth cannot be in the future")
     .required("Date of birth is required"),
