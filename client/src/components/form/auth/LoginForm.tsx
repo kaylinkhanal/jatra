@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,7 +40,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="grid gap-6">
+      <form onSubmit={formik.handleSubmit} className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -58,12 +57,6 @@ const LoginForm = () => {
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
-            <div
-              onClick={() => setIsForgetPasswordModelOpen(true)}
-              className="ml-auto cursor-pointer text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </div>
           </div>
           <Input
             id="password"
@@ -75,8 +68,14 @@ const LoginForm = () => {
           {formik.touched.password && formik.errors.password && (
             <p className="text-red-500 text-sm">{formik.errors.password}</p>
           )}
+                      <div
+              onClick={() => setIsForgetPasswordModelOpen(true)}
+              className="ml-auto cursor-pointer text-xs hover:underline"
+            >
+              Forgot your password?
+            </div>
         </div>
-        <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
+        <Button type="submit" className="w-full bg-[#ff8737] hover:bg-[#fc8e44da]" disabled={formik.isSubmitting}>
           {formik.isSubmitting ? "Logging in..." : "Submit"}
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

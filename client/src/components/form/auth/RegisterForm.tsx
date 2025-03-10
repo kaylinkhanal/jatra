@@ -37,7 +37,7 @@ const RegisterForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="grid gap-4">
+    <form onSubmit={formik.handleSubmit} className="grid gap-2">
       <div className="grid gap-2">
         <Label htmlFor="fullName">Full Name</Label>
         <Input
@@ -108,7 +108,7 @@ const RegisterForm = () => {
           <p className="text-red-500 text-sm">{formik.errors.dob}</p>
         )}
       </div>
-      <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
+      <Button type="submit" className="w-full bg-[#ff8737] hover:bg-[#fc8e44da]" disabled={formik.isSubmitting}>
         {formik.isSubmitting ? "Creating account..." : "Submit"}
       </Button>
       <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
