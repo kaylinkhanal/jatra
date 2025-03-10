@@ -72,12 +72,16 @@ const ForgetPasswordModel = ({ open, onOpenChange }: ForgetPasswordModelProps) =
                   value={formikEmail.values.email}
                 />
                 {formikEmail.touched.email && formikEmail.errors.email && (
-                  <p className="text-red-500 text-sm">{formikEmail.errors.email}</p>
+                  <p className="text-red-500 text-sm">
+                    {formikEmail.errors.email}
+                  </p>
                 )}
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Next</Button>
+              <Button className="bg-orange-600!" type="submit">
+                Next
+              </Button>
             </DialogFooter>
           </form>
         ) : (
@@ -93,13 +97,18 @@ const ForgetPasswordModel = ({ open, onOpenChange }: ForgetPasswordModelProps) =
                   onBlur={formikPassword.handleBlur}
                   value={formikPassword.values.password}
                 />
-                {formikPassword.touched.password && formikPassword.errors.password && (
-                  <p className="text-red-500 text-sm">{formikPassword.errors.password}</p>
-                )}
+                {formikPassword.touched.password &&
+                  formikPassword.errors.password && (
+                    <p className="text-red-500 text-sm">
+                      {formikPassword.errors.password}
+                    </p>
+                  )}
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Reset Password</Button>
+              <Button className="bg-orange-600!" type="submit">
+                Reset Password
+              </Button>
             </DialogFooter>
           </form>
         )}
