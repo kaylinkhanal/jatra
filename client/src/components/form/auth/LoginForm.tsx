@@ -17,7 +17,7 @@ const LoginForm = () => {
 
   const handleLogin = async(values:any)=>{
     try{
-      const res = await axios.post('http://localhost:9000/login', values)
+      const res = await axios.post('/api/auth/login', values)
       if(res.status == 200) {
        toast.success(res.data.msg)
        router.push('/dashboard')
@@ -25,7 +25,6 @@ const LoginForm = () => {
     }catch(err:any){
       toast.error(err.response?.data?.msg)
     }
-
    }
   const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] = useState(false);
   const formik = useFormik({
