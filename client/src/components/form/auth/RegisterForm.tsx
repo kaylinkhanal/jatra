@@ -16,7 +16,7 @@ const RegisterForm = () => {
 
   const handleRegister = async(values:any)=>{
    const res = await axios.post('/api/auth/register', values)
-   if(res.status == 200 || res.status ==  201) {
+   if(res.status == 200) {
     toast.success(res.data.msg)
     router.push('/login')
    }

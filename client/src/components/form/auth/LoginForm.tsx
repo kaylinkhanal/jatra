@@ -13,20 +13,21 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleLogin = async(values:any)=>{
-    try{
-      const res = await axios.post('/api/auth/login', values)
-      if(res.status == 200) {
-       toast.success(res.data.msg)
-       router.push('/dashboard')
+  const handleLogin = async (values: any) => {
+    try {
+      const res = await axios.post("/api/auth/login", values);
+      if (res.status == 200) {
+        toast.success(res.data.msg);
+        router.push("/dashboard");
       }
-    }catch(err:any){
-      toast.error(err.response?.data?.msg)
+    } catch (err: any) {
+      toast.error(err.response?.data?.msg);
     }
-   }
-  const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] = useState(false);
+  };
+  const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] =
+    useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,7 +35,7 @@ const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      handleLogin(values)
+      handleLogin(values);
     },
   });
 
