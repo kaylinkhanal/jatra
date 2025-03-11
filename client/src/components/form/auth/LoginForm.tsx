@@ -9,7 +9,7 @@ import LoginSchema from "@/schema/LoginSchema";
 import { useState } from "react";
 import ForgetPasswordModel from "./ForgetPasswordModel";
 import axios from "axios";
-import { toast } from "sonner";
+import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
@@ -18,7 +18,7 @@ const LoginForm = () => {
   const handleLogin = async(values:any)=>{
     try{
       const res = await axios.post('/api/auth/login', values)
-      if(res.status == 200) {
+      if(res.status == 200 || res.status == 201) {
        toast.success(res.data.msg)
        router.push('/dashboard')
       }
