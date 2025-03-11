@@ -20,9 +20,12 @@ const getUser = async(req, res) => {
   }
 
   const loginUser = async (req, res) => {
+    console.log('Received request:', req.body);
     const user = await User.findOne({email: req.body.email})
     if(!user)  return res.status(404).json({msg: "Email not found"})
-    const isMatched = await bcrypt.compare(req.body.password, user.password)
+      const isMatched = await bcrypt.compare(req.body.password, user.password);
+    console.log('Password match result:', isMatched);
+      
     if(!isMatched) return res.status(400).json({msg: "Invalid password"})
     const token = await jwt.sign({
       data: req.body.email

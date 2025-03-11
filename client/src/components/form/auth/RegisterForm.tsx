@@ -44,6 +44,7 @@ const RegisterForm = () => {
           id="fullName"
           name="fullName"
           type="text"
+          autoComplete="username"
           onChange={formik.handleChange}
           value={formik.values.fullName}
           placeholder="Enter your Full Name"
@@ -58,6 +59,7 @@ const RegisterForm = () => {
           id="email"
           name="email"
           type="email"
+          autoComplete="email"
           onChange={formik.handleChange}
           value={formik.values.email}
           placeholder="Enter your Email"
@@ -86,6 +88,7 @@ const RegisterForm = () => {
           id="password"
           name="password"
           type="password"
+          autoComplete="current-password"
           onChange={formik.handleChange}
           value={formik.values.password}
           placeholder="Enter your Password"
