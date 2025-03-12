@@ -9,7 +9,7 @@ import LoginSchema from "@/schema/LoginSchema";
 import { useState } from "react";
 import ForgetPasswordModel from "./ForgetPasswordModel";
 import axios from "axios";
-import { toast } from "sonner";
+import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
