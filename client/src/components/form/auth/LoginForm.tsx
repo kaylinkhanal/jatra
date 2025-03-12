@@ -18,7 +18,7 @@ const LoginForm = () => {
   const handleLogin = async(values:any)=>{
     try{
       const res = await axios.post('/api/auth/login', values)
-      if(res.status == 200) {
+      if(res.status == 200 || res.status == 201){
        toast.success(res.data.msg)
        router.push('/dashboard')
       }
