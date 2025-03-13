@@ -1,4 +1,4 @@
-import { Calendar, Flag, Heart, ListChecks, Map, MessageSquare, Settings, Users } from "lucide-react"
+import { Calendar, Heart, ListChecks, Map, MessageSquare, Settings, Users } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -19,8 +19,8 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="h-16 border-b border-sidebar-border flex items-center px-4">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-            <Flag className="h-4 w-4 text-primary-foreground" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#FF4500]">
+            <span className="text-white font-bold text-lg">J</span>
           </div>
           <span className="text-xl font-bold">JATRA</span>
         </Link>
