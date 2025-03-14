@@ -13,12 +13,12 @@ const RegisterSchema = Yup.object({
     .email("Invalid email address")
     .required("Email is required"),
   
-  phone: Yup
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number must be at most 15 digits")
-    .matches(/^[0-9]*$/, "Phone number must contain only digits")
-    .required("Phone number is required"),
+  // phone: Yup
+  //   .string()
+  //   .min(10, "Phone number must be at least 10 digits")
+  //   .max(15, "Phone number must be at most 15 digits")
+  //   .matches(/^[0-9]*$/, "Phone number must contain only digits")
+  //   .required("Phone number is required"),
   
     role: Yup.string()
     .oneOf(["user", "organizer", "artist"], "Invalid role")

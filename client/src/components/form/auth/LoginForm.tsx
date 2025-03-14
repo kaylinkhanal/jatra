@@ -41,7 +41,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="px-20 grid gap-4">
+      <form onSubmit={formik.handleSubmit} className="px-20 grid gap-2">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -78,7 +78,7 @@ const LoginForm = () => {
         </div>
         <Button
           type="submit"
-          className="w-full "
+        className="w-full bg-orange-600 hover:bg-orange-500 cursor-pointer"
           disabled={formik.isSubmitting}
         >
           {formik.isSubmitting ? "Logging in..." : "Submit"}

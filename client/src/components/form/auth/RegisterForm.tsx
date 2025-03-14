@@ -29,7 +29,6 @@ const RegisterForm = () => {
     initialValues: {
       fullName: "",
       email: "",
-      phone: "",
       password: "",
       role: "",
     },
@@ -40,84 +39,72 @@ const RegisterForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="grid gap-4">
-      <div className="grid gap-2">
-        <Label htmlFor="fullName">Full Name</Label>
-        <Input
-          id="fullName"
-          name="fullName"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.fullName}
-          placeholder="Enter your Full Name"
-        />
-        {formik.touched.fullName && formik.errors.fullName && (
-          <p className="text-red-500 text-sm">{formik.errors.fullName}</p>
-        )}
+    <form onSubmit={formik.handleSubmit} className="grid gap-4  px-8">
+      <div className="flex gap-3">
+        <div className="grid gap-2 w-1/2">
+          <Label htmlFor="fullName">Full Name</Label>
+          <Input
+            id="fullName"
+            name="fullName"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.fullName}
+            placeholder="Enter your Full Name"
+          />
+          {formik.touched.fullName && formik.errors.fullName && (
+            <p className="text-red-500 text-sm">{formik.errors.fullName}</p>
+          )}
+        </div>
+        <div className="grid gap-1 w-1/2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            placeholder="Enter your Email"
+          />
+          {formik.touched.email && formik.errors.email && (
+            <p className="text-red-500 text-sm">{formik.errors.email}</p>
+          )}
+        </div>
       </div>
-      <div className="grid gap-1">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-          placeholder="Enter your Email"
-        />
-        {formik.touched.email && formik.errors.email && (
-          <p className="text-red-500 text-sm">{formik.errors.email}</p>
-        )}
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="phone">Phone</Label>
-        <Input
-          id="phone"
-          name="phone"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.phone}
-          placeholder="Enter your Phone"
-        />
-        {formik.touched.phone && formik.errors.phone && (
-          <p className="text-red-500 text-sm">{formik.errors.phone}</p>
-        )}
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          placeholder="Enter your Password"
-        />
-        {formik.touched.password && formik.errors.password && (
-          <p className="text-red-500 text-sm">{formik.errors.password}</p>
-        )}
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="role">Role</Label>
-        <select
-          id="role"
-          name="role"
-          onChange={formik.handleChange}
-          value={formik.values.role}
-          className="border rounded-md p-2 w-full"
-        >
-          <option value="" disabled>
-            Select your role
-          </option>
-          <option value="user">User</option>
-          <option value="organizer">Organization</option>
-          <option value="artist">Artist</option>
-        </select>
+      <div className="flex gap-3 ">
+        <div className="grid gap-2 w-1/2">
+          <Label htmlFor="role">Role</Label>
+          <select
+            id="role"
+            name="role"
+            onChange={formik.handleChange}
+            value={formik.values.role}
+            className="border rounded-md p-2 w-full"
+          >
+            <option value="user">User</option>
+            <option value="organizer">Organization</option>
+            <option value="artist">Artist</option>
+          </select>
 
-        {formik.touched.role && formik.errors.role && (
-          <p className="text-red-500 text-sm">{formik.errors.role}</p>
-        )}
+          {formik.touched.role && formik.errors.role && (
+            <p className="text-red-500 text-sm">{formik.errors.role}</p>
+          )}
+        </div>
+        <div className="grid gap-2 w-1/2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            placeholder="Enter your Password"
+          />
+          {formik.touched.password && formik.errors.password && (
+            <p className="text-red-500 text-sm">{formik.errors.password}</p>
+          )}
+        </div>
       </div>
+
       <Button
         type="submit"
         className="w-full bg-orange-600 hover:bg-orange-500 cursor-pointer"
