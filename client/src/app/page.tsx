@@ -1,3 +1,4 @@
+import NavBar from "@/components/Navbar";
 import { Calendar, Clock, LockKeyhole } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,52 +6,43 @@ import { TiTick } from "react-icons/ti";
 
 const Home = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <header className="bg-amber-700  text-white py-4 shadow-lg w-full ">
-        <div className="container mx-auto flex justify-between items-center px-6">
-          <div className="flex items-center space-x-3">
-            <Image
-              src={"/logojatra.png"}
-              alt="Jatra Logo"
-              width={100}
-              height={100}
-              className="w-16 h-16 rounded-lg"
-            />
-          </div>
-
-          <div className="text-lg font-semibold italic hidden md:block">
-            <p className="relative">
-              "Where Your Next Adventure Begins!"
-              <span className="absolute bottom-[-22px] right-2">- Jatra</span>
-            </p>
-          </div>
-        </div>
-      </header>
-
-      <section className="bg-orange-50 text-white pt-8 py-16 bg-[url('/lakhey.jpg')]  min-h-[700px] flex  items-center ">
-        <div className="container mx-auto px-4 flex items-center ">
-          <div className="md:w-1/2 mb-8 md:mb-0 p-3 rounded-">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-orange-800">
-              Book Events with Ease
-            </h1>
-            <p className="text-lg md:text-xl mb-6 text-orange-400">
-              Jatra simplifies event booking with a seamless experience for
-              organizers and attendees alike.
-            </p>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <Link
-                href={"/login"}
-                className="bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-600 transition"
-              >
-                Sign In
-              </Link>
-              <Link
-                href={"/register"}
-                className="bg-transparent border border-orange-500 text-orange-500 font-semibold py-3 px-6 rounded-lg hover:text-orange-800 transition"
-              >
-                Sign Up
-              </Link>
+    <div className="min-h-screen relatice bg-white">
+      <NavBar/>
+      <section className="bg-orange-50 text-white bg-[url('/lakhey.jpg')] bg-center min-h-screen">
+        <div className="w-full h-screen absolute">
+          <div className="container mx-auto px-4 flex items-center relative top-50">
+            <div className="md:w-1/2 mb-8 md:mb-0 p-3 rounded-">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-orange-800">
+                Book Events with Ease
+              </h1>
+              <p className="text-lg md:text-xl mb-6 text-orange-400">
+                Jatra simplifies event booking with a seamless experience for
+                organizers and attendees alike.
+              </p>
+              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link
+                  href={"/login"}
+                  className="bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-600 transition"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href={"/register"}
+                  className="bg-transparent border border-orange-500 text-orange-500 font-semibold py-3 px-6 rounded-lg hover:text-orange-800 transition"
+                >
+                  Sign Up
+                </Link>
+              </div>
             </div>
+          </div>
+
+          {/* Adjusted for proper bottom-right positioning */}
+          <div className="absolute bottom-10 right-15 text-2xl font-semibold italic md:block">
+            <p>
+              {" "}
+              "Where Your Next Adventure Begins!"
+              <span className="block mt-1 text-sm text-right">- Jatra</span>
+            </p>
           </div>
         </div>
       </section>
@@ -163,6 +155,6 @@ const Home = () => {
       </footer>
     </div>
   );
-}
+};
 
 export default Home;

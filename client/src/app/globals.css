@@ -128,4 +128,29 @@
   }
 }
 
+.indicator-line {
+  @apply h-3 w-px rounded-full bg-white transition-all duration-200 ease-in-out;
+}
 
+.indicator-line.active {
+  animation: indicator-line 0.5s ease infinite;
+  animation-delay: calc(var(--animation-order) * 0.1s);
+}
+
+@keyframes indicator-line {
+  0%, 100% {
+    transform: scaleY(1); /* Normal height */
+  }
+  50% {
+    transform: scaleY(2); /* Doubled height */
+  }
+}
+
+.nav-btn {
+color: white;
+margin: 0 5px 0 5px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
