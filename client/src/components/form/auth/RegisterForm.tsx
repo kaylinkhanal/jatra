@@ -7,38 +7,35 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import RegisterSchema from "@/schema/RegisterSchema";
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleRegister = async(values:any)=>{
+  const handleRegister = async (values: any) => {
     try {
-      const res = await axios.post('/api/auth/register', values)
-      if(res.status == 200 || res.status ==  201) {
-       toast.success(res.data.msg)
-       router.push('/login')
+      const res = await axios.post("/api/auth/register", values);
+      if (res.status == 200 || res.status == 201) {
+        toast.success(res.data.msg);
+        router.push("/login");
       }
+    } catch (error: any) {
+      toast.error(error.response?.data?.msg);
     }
-    catch (error: any) {
-      toast.error(error.response?.data?.msg)
-    }
-   
-  }
+  };
   const formik = useFormik({
     initialValues: {
       fullName: "",
       email: "",
       phone: "",
       password: "",
-      dob: '',
+      role: "",
     },
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
-
-     handleRegister(values)
+      handleRegister(values);
     },
   });
 
@@ -101,20 +98,31 @@ const RegisterForm = () => {
         )}
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="dob">Date of Birth</Label>
-        <Input
-          type="date"
-          id="dob"
-          name="dob"
+        <Label htmlFor="role">Role</Label>
+        <select
+          id="role"
+          name="role"
           onChange={formik.handleChange}
-          value={formik.values.dob}
-          placeholder="Enter your Date of Birth"
-        />
-        {formik.touched.dob && formik.errors.dob && (
-          <p className="text-red-500 text-sm">{formik.errors.dob}</p>
+          value={formik.values.role}
+          className="border rounded-md p-2 w-full"
+        >
+          <option value="" disabled>
+            Select your role
+          </option>
+          <option value="user">User</option>
+          <option value="organizer">Organization</option>
+          <option value="artist">Artist</option>
+        </select>
+
+        {formik.touched.role && formik.errors.role && (
+          <p className="text-red-500 text-sm">{formik.errors.role}</p>
         )}
       </div>
-      <Button type="submit" className="w-full bg-orange-600!" disabled={formik.isSubmitting}>
+      <Button
+        type="submit"
+        className="w-full bg-orange-600 hover:bg-orange-500 cursor-pointer"
+        disabled={formik.isSubmitting}
+      >
         {formik.isSubmitting ? "Creating account..." : "Submit"}
       </Button>
       <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

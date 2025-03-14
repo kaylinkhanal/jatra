@@ -9,24 +9,25 @@ import LoginSchema from "@/schema/LoginSchema";
 import { useState } from "react";
 import ForgetPasswordModel from "./ForgetPasswordModel";
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleLogin = async(values:any)=>{
-    try{
-      const res = await axios.post('/api/auth/login', values)
-      if(res.status == 200 || res.status == 201){
-       toast.success(res.data.msg)
-       router.push('/home')
+  const handleLogin = async (values: any) => {
+    try {
+      const res = await axios.post("/api/auth/login", values);
+      if (res.status == 200 || res.status == 201) {
+        toast.success(res.data.msg);
+        router.push("/home");
       }
-    }catch(err:any){
-      toast.error(err.response?.data?.msg)
+    } catch (err: any) {
+      toast.error(err.response?.data?.msg);
     }
-   }
-  const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] = useState(false);
+  };
+  const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] =
+    useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,13 +35,13 @@ const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      handleLogin(values)
+      handleLogin(values);
     },
   });
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="grid gap-6">
+      <form onSubmit={formik.handleSubmit} className="px-20 grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -57,12 +58,6 @@ const LoginForm = () => {
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
-            <div
-              onClick={() => setIsForgetPasswordModelOpen(true)}
-              className="ml-auto cursor-pointer text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </div>
           </div>
           <Input
             id="password"
@@ -71,11 +66,21 @@ const LoginForm = () => {
             value={formik.values.password}
             placeholder="Enter your Password"
           />
+          <div
+            onClick={() => setIsForgetPasswordModelOpen(true)}
+            className="ml-auto cursor-pointer text-xs  hover:underline"
+          >
+            Forgot your password?
+          </div>
           {formik.touched.password && formik.errors.password && (
             <p className="text-red-500 text-sm">{formik.errors.password}</p>
           )}
         </div>
-        <Button type="submit" className="w-full bg-orange-600!" disabled={formik.isSubmitting}>
+        <Button
+          type="submit"
+          className="w-full "
+          disabled={formik.isSubmitting}
+        >
           {formik.isSubmitting ? "Logging in..." : "Submit"}
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
