@@ -20,7 +20,7 @@ const LoginForm = () => {
       const res = await axios.post('/api/auth/login', values)
       if(res.status == 200 || res.status == 201){
        toast.success(res.data.msg)
-       router.push('/dashboard')
+       router.push('/home')
       }
     }catch(err:any){
       toast.error(err.response?.data?.msg)
