@@ -15,17 +15,11 @@ const RegisterForm = () => {
   const router = useRouter()
 
   const handleRegister = async(values:any)=>{
-    try {
-      const res = await axios.post('/api/auth/register', values)
-      if(res.status == 200 || res.status ==  201) {
-       toast.success(res.data.msg)
-       router.push('/login')
-      }
-    }
-    catch (error: any) {
-      toast.error(error.response?.data?.msg)
-    }
-   
+   const res = await axios.post('/api/auth/register', values)
+   if(res.status == 200) {
+    toast.success(res.data.msg)
+    router.push('/login')
+   }
   }
   const formik = useFormik({
     initialValues: {

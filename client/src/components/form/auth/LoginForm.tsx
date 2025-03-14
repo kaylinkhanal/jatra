@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleLogin = async(values:any)=>{
     try{
@@ -22,11 +22,12 @@ const LoginForm = () => {
        toast.success(res.data.msg)
        router.push('/home')
       }
-    }catch(err:any){
-      toast.error(err.response?.data?.msg)
+    } catch (err: any) {
+      toast.error(err.response?.data?.msg);
     }
-   }
-  const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] = useState(false);
+  };
+  const [isForgetPasswordModelOpen, setIsForgetPasswordModelOpen] =
+    useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,7 +35,7 @@ const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      handleLogin(values)
+      handleLogin(values);
     },
   });
 

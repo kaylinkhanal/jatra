@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 
