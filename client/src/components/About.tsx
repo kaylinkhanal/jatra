@@ -28,14 +28,14 @@ const About = () => {
   return (
     <div id="about" className="min-h-screen mt-30 w-screen">
       <div className="relative mb-8 mt-0 flex flex-col items-center gap-6">
-        <p className="font-general text-sm uppercase md:text-[15px]">
+        <p className=" text-white font-general text-sm uppercase md:text-[15px]">
           Welcome to JATRA
         </p>
-        <h1 className="mt-2 text-black font-bold text-5xl text-center">
+        <h1 className="mt-2 text-white font-bold text-5xl text-center">
           Plan your next <br /> greate vent with JATRA
         </h1>
         <div className="about-subtext">
-          <p>Experience the Joy of Seamless Event with JATRA</p>
+          <p className="text-white">Experience the Joy of Seamless Event with JATRA</p>
           <p className="text-gray-500">
             JATRA brings organizers, attendees, and service providers together
             on one platform, transforming events into unforgettable experiences.

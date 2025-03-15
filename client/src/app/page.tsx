@@ -1,15 +1,20 @@
+'use client'
 import About from "@/components/About";
 import NavBar from "@/components/Navbar";
 import { Calendar, Clock, LockKeyhole } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TiTick } from "react-icons/ti";
+;
 
 const Home = () => {
   return (
-    <div className="min-h-screen relatice bg-white">
+    <div className="min-h-screen relatice bg-black bg-gra-50">
       <NavBar/>
-      <section className="bg-orange-50 text-white bg-[url('/lakhey.jpg')] bg-center min-h-screen">
+      <section className="bg-orange-50 overflow-hidden text-white bg-[url('/lakhey.jpg')] bg-center min-h-screen"
+        style={{
+          filter: "brightness(0.9) contrast(1.3)", // Example filter
+        }}>
         <div className="w-full h-screen absolute">
           <div className="container mx-auto px-4 flex items-center relative top-50">
             <div className="md:w-1/2 mb-8 md:mb-0 p-3 rounded-">
@@ -40,7 +45,6 @@ const Home = () => {
           {/* Adjusted for proper bottom-right positioning */}
           <div className="absolute bottom-10 right-15 text-2xl font-semibold italic md:block">
             <p>
-              {" "}
               "Where Your Next Adventure Begins!"
               <span className="block mt-1 text-sm text-right">- Jatra</span>
             </p>

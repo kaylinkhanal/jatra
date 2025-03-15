@@ -1,55 +1,26 @@
-"use client";
 import LoginForm from "@/components/form/auth/LoginForm";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import gsap from "gsap";
 
 const LoginPage = () => {
-  const images = ["auth-1.jpg", "auth-2.jpg", "auth-3.jpg", "auth-4.jpg"];
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    gsap.set("#moving_img", {
-      borderRadius: "2% 0% 0% 2%",
-      x: "100%",
-    });
-
-    gsap.fromTo(
-      "#moving_img",
-      {
-        x: "100%",
-      },
-      {
-        x: "0%",
-        duration: 2,
-        ease: "power1.inOut",
-      }
-    );
-  }, [currentImageIndex]);
   // bg-[#B4EBE6]
   return (
     <div className=" bg-black min-h-screen min-w-full flex justify-center items-center">
       <div className="min-h-[90vh] w-[80%] flex rounded-lg overflow-hidden shadow-black">
-        <div className="h-[90vh] w-1/2 relative overflow-hidden">
+        <div className="h-[90vh] w-1/2 relative overflow-hidden group">
           <img
             className="object-cover absolute w-full h-full"
-            src={images[currentImageIndex]}
-            alt={`auth-${currentImageIndex + 1}`}
+            src="auth-3.jpg"
+            alt="auth photo"
           />
-          <img
-            id="moving_img"
-            className="object-cover absolute w-full h-full"
-            src={images[(currentImageIndex + 1) % images.length]} // Next image
-            alt={`auth-${((currentImageIndex + 1) % images.length) + 1}`}
-          />
+          <div className="absolute w-full h-full bg-gradient-to-t from-blue-900/70 to-transparent text-white p-4 transition-transform transform translate-y-full group-hover:translate-y-0"
+            style={{ transitionDuration: '1.5s' }}>
+            <div className=" mb-10 mt-50 text-center text-4xl font-bold">
+              <h1 >Experience, Every Moment</h1>
+            </div>
+            <p className="mt-4 text-lg text-center">
+              Join us to savor unforgettable moments.
+            </p>
+          </div>
         </div>
         <div className=" w-1/2 bg-gray-50">
           <div className=" w-full h-full mx-auto space-y-2  p-6 ">
