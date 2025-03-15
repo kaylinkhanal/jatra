@@ -9,7 +9,7 @@ import LoginSchema from "@/schema/LoginSchema";
 import { useState } from "react";
 import ForgetPasswordModel from "./ForgetPasswordModel";
 import axios from "axios";
-import { toast } from "sonner";
+import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
@@ -18,9 +18,9 @@ const LoginForm = () => {
   const handleLogin = async(values:any)=>{
     try{
       const res = await axios.post('/api/auth/login', values)
-      if(res.status == 200) {
+      if(res.status == 200 || res.status == 201){
        toast.success(res.data.msg)
-       router.push('/dashboard')
+       router.push('/home')
       }
     }catch(err:any){
       toast.error(err.response?.data?.msg)
@@ -75,7 +75,7 @@ const LoginForm = () => {
             <p className="text-red-500 text-sm">{formik.errors.password}</p>
           )}
         </div>
-        <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
+        <Button type="submit" className="w-full bg-orange-600!" disabled={formik.isSubmitting}>
           {formik.isSubmitting ? "Logging in..." : "Submit"}
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

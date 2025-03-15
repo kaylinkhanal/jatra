@@ -15,11 +15,17 @@ const RegisterForm = () => {
   const router = useRouter()
 
   const handleRegister = async(values:any)=>{
-   const res = await axios.post('/api/auth/register', values)
-   if(res.status == 200 || res.status ==  201) {
-    toast.success(res.data.msg)
-    router.push('/login')
-   }
+    try {
+      const res = await axios.post('/api/auth/register', values)
+      if(res.status == 200 || res.status ==  201) {
+       toast.success(res.data.msg)
+       router.push('/login')
+      }
+    }
+    catch (error: any) {
+      toast.error(error.response?.data?.msg)
+    }
+   
   }
   const formik = useFormik({
     initialValues: {
@@ -108,7 +114,7 @@ const RegisterForm = () => {
           <p className="text-red-500 text-sm">{formik.errors.dob}</p>
         )}
       </div>
-      <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
+      <Button type="submit" className="w-full bg-orange-600!" disabled={formik.isSubmitting}>
         {formik.isSubmitting ? "Creating account..." : "Submit"}
       </Button>
       <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
