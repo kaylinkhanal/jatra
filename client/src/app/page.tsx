@@ -1,3 +1,4 @@
+import About from "@/components/About";
 import NavBar from "@/components/Navbar";
 import { Calendar, Clock, LockKeyhole } from "lucide-react";
 import Image from "next/image";
@@ -46,6 +47,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <About/>
 
       {/* Features Section */}
       <section id="features" className="py-16">

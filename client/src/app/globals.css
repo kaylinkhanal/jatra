@@ -154,3 +154,19 @@ margin: 0 5px 0 5px;
 html {
   scroll-behavior: smooth;
 }
+
+.about-subtext {
+  @apply absolute bottom-[-90dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center  text-lg md:max-w-[34rem];
+}
+
+.mask-clip-path {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.about-image {
+  @apply absolute left-1/2 top-0 z-20 h-[60vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-3xl md:w-[30vw];
+}
+
+.animated-title {
+  @apply flex flex-col gap-1 text-3xl uppercase leading-[.9] text-white sm:px-32 md:text-[3rem];
+}
