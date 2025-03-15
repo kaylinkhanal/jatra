@@ -26,7 +26,7 @@ const About = () => {
   });
 
   return (
-    <div id="about" className="min-h-screen mt-30 w-screen">
+    <div id="about" className="min-h-screen mt-30 max-w-screen">
       <div className="relative mb-8 mt-0 flex flex-col items-center gap-6">
         <p className=" text-white font-general text-sm uppercase md:text-[15px]">
           Welcome to JATRA
@@ -43,7 +43,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className="h-dvh w-screen" id="clip">
+      <div className="h-dvh max-w-screen" id="clip">
         <div className="mask-clip-path about-image">
           <img
             src="auth-1.jpg"

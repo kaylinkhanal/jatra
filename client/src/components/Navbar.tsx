@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { useWindowScroll } from "react-use";
 import { useEffect, useRef, useState } from "react";
 
-const navItems: string[] = ["Features", "Event", "About", "Contact"];
+const navItems: string[] = [ "About", "Event", "Features","Contact"];
 
 const NavBar: React.FC = () => {
   // State for toggling audio and visual indicator

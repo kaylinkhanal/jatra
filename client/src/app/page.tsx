@@ -1,5 +1,6 @@
 'use client'
 import About from "@/components/About";
+import Events from "@/components/Event";
 import NavBar from "@/components/Navbar";
 import { Calendar, Clock, LockKeyhole } from "lucide-react";
 import Image from "next/image";
@@ -13,45 +14,38 @@ const Home = () => {
       <NavBar/>
       <section className="bg-orange-50 overflow-hidden text-white bg-[url('/lakhey.jpg')] bg-center min-h-screen"
         style={{
-          filter: "brightness(0.9) contrast(1.3)", // Example filter
+          filter: "brightness(0.9) contrast(1.3)", 
         }}>
         <div className="w-full h-screen absolute">
           <div className="container mx-auto px-4 flex items-center relative top-50">
             <div className="md:w-1/2 mb-8 md:mb-0 p-3 rounded-">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-orange-800">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-orange-400">
                 Book Events with Ease
               </h1>
-              <p className="text-lg md:text-xl mb-6 text-orange-400">
+              <p className="text-lg md:text-xl mb-6 text-white">
                 Jatra simplifies event booking with a seamless experience for
                 organizers and attendees alike.
               </p>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <Link
                   href={"/login"}
-                  className="bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-600 transition"
+                  className="bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-400 transition"
                 >
                   Sign In
                 </Link>
                 <Link
                   href={"/register"}
-                  className="bg-transparent border border-orange-500 text-orange-500 font-semibold py-3 px-6 rounded-lg hover:text-orange-800 transition"
+                  className="bg-transparent border bg-wh border-orange-500 text-orange-500 font-semibold py-3 px-6 rounded-lg hover:text-white transition"
                 >
                   Sign Up
                 </Link>
               </div>
             </div>
           </div>
-
-          {/* Adjusted for proper bottom-right positioning */}
-          <div className="absolute bottom-10 right-15 text-2xl font-semibold italic md:block">
-            <p>
-              "Where Your Next Adventure Begins!"
-              <span className="block mt-1 text-sm text-right">- Jatra</span>
-            </p>
-          </div>
         </div>
       </section>
       <About/>
+      <Events/>
 
       {/* Features Section */}
       <section id="features" className="py-16">

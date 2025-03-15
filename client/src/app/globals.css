@@ -170,3 +170,8 @@ html {
 .animated-title {
   @apply flex flex-col gap-1 text-3xl uppercase leading-[.9] text-white sm:px-32 md:text-[3rem];
 }
+
+.special-font b {
+  font-family: "Zentry";
+  font-feature-settings: "ss01" on;
+}
