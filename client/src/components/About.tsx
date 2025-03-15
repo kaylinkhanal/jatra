@@ -35,7 +35,9 @@ const About = () => {
           Plan your next <br /> greate vent with JATRA
         </h1>
         <div className="about-subtext">
-          <p className="text-white">Experience the Joy of Seamless Event with JATRA</p>
+          <p className="text-white">
+            Experience the Joy of Seamless Event with JATRA
+          </p>
           <p className="text-gray-500">
             JATRA brings organizers, attendees, and service providers together
             on one platform, transforming events into unforgettable experiences.
@@ -43,15 +45,15 @@ const About = () => {
         </div>
       </div>
 
-      <div className="h-dvh max-w-screen" id="clip">
+      <div className="h-screen max-w-screen overflow-hidden" id="clip">
         <div className="mask-clip-path about-image">
-        <video
-        src='videos/about.mp4'
-        loop
-        muted
-        autoPlay
-        className="absolute left-0 top-0 size-full object-cover object-center"
-      />
+          <video
+            src="videos/about.mp4"
+            loop
+            muted
+            autoPlay
+            className="absolute left-0 top-0 size-full object-cover object-center"
+          />
         </div>
       </div>
     </div>
