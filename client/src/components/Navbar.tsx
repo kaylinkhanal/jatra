@@ -75,7 +75,7 @@ const NavBar: React.FC = () => {
         <nav className="flex size-full items-center justify-between p-4">
           {/* Logo and Product button */}
           <div className="flex items-center gap-7">
-            <img src="/logojatra.png" alt="logo" className="w-10 rounded-xl" />
+            <img src="/logojatra.png" alt="logo" className="w-10  2xl:w-15 rounded-xl" />
           </div>
 
           {/* Navigation Links and Audio Button */}
@@ -85,7 +85,7 @@ const NavBar: React.FC = () => {
                 <a
                   key={index}
                   href={`#${item.toLowerCase()}`}
-                  className="nav-btn"
+                  className="nav-btn  2xl:text-2xl"
                 >
                   {item}
                 </a>

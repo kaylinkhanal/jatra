@@ -32,34 +32,34 @@ const Home = () => {
     <div>
       {loading && <PreLoader />}
       {!loading && (
-        <div className="min-h-screen relatice bg-black bg-gra-50">
+        <div className="min-h-screen max-w-full relatice bg-black bg-gra-50">
           <NavBar />
           <section
-            className="bg-orange-50 overflow-hidden text-white bg-[url('/lakhey.jpg')] bg-center min-h-screen"
+            className="bg-orange-50 overflow-hidden text-white bg-[url('/lakhey.jpg')] bg-center h-screen"
             style={{
               filter: "brightness(0.9) contrast(1.3)",
             }}
           >
             <div className="w-full h-screen absolute">
-              <div className="container mx-auto px-4 flex items-center relative top-50">
-                <div className="md:w-1/2 mb-8 md:mb-0 p-3 rounded-">
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-orange-400">
+              <div className="container mx-auto px-4 flex items-center relative top-1/2">
+                <div className="md:w-1/2 2xl:w-[60%] mb-8 md:mb-0 p-3 rounded-">
+                  <h1 className="text-4xl 2xl:text-7xl md:text-5xl font-bold mb-4 text-orange-400">
                     Book Events with Ease
                   </h1>
-                  <p className="italic text-lg md:text-xl mb-6 text-white">
+                  <p className=" 2xl:text-5xl text-lg md:text-xl mb-6 text-white">
                     Jatra simplifies event booking with a seamless experience
                     for organizers and attendees alike.
                   </p>
                   <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                     <Link
                       href={"/login"}
-                      className="bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-400 transition"
+                      className="bg-orange-500 2xl:text-3xl text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-400 transition"
                     >
                       Sign In
                     </Link>
                     <Link
                       href={"/register"}
-                      className="bg-transparent border bg-wh border-orange-500 text-orange-500 font-semibold py-3 px-6 rounded-lg hover:text-white transition"
+                      className="bg-transparent  2xl:text-3xl border bg-wh border-orange-500 text-orange-500 font-semibold py-3 px-6 rounded-lg hover:text-white transition"
                     >
                       Sign Up
                     </Link>

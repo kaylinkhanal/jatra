@@ -129,7 +129,7 @@
 }
 
 .indicator-line {
-  @apply h-3 w-px rounded-full bg-white transition-all duration-200 ease-in-out;
+  @apply h-3 w-px rounded-full bg-white 2xl:h-6 2xl:w-1 transition-all duration-200 ease-in-out;
 }
 
 .indicator-line.active {
@@ -177,11 +177,11 @@ html {
 }
 
 .pre-load {
-  width:200px;
-  height:200px;
+  width:150px;
+  height:150px;
   border:5px solid white;
   border-radius:10px;
-  line-height:200px;
+  line-height:150px;
   text-align:center;
   color:#ddd;
   font-size:30px;
