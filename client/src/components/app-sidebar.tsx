@@ -32,8 +32,9 @@ import Link from "next/link"
   ]
    
   export function AppSidebar() {
+
     return (
-        <Sidebar>
+        <Sidebar collapsible="icon" >
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Application</SidebarGroupLabel>

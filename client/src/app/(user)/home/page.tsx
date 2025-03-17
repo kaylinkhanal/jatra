@@ -14,7 +14,7 @@ export default function Page() {
 
     return (
         <>
-            <div className="bg-white-700 mx-auto my-5 w-[100vw] h-[100vh]">
+            <div className="bg-white-700 mx-auto w-[100vw] h-[100vh]">
                 {Map && <Map posix={[4.79029, -75.69003]} />}
             </div>
         </>
