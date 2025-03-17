@@ -8,6 +8,7 @@ import React from 'react';
 import MapAvatar from './mapavatar';
 import Avatar from './avatar';
 import Image from 'next/image';
+import { DatePickerWithRange } from './datePicker';
 
 export default function Map() {
   const user = {
@@ -187,6 +188,10 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
     
+      <div className="z-999 absolute right-40 top-6">
+        <DatePickerWithRange />
+      </div>
+
       <div className="z-999 absolute right-20 top-6">
         <Avatar/>
       </div>
