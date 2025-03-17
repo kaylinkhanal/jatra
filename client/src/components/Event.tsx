@@ -124,7 +124,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 };
 
 const Events = () => (
-  <section id="event" className="bg-black overflow-hidden pb-50 max-w-screen">
+  <section id="event" className="bg-black overflow-hidden pb-10 max-w-screen">
     <div className=" md:px-10">
       <div className="px-5 py-32">
         <p className=" text-lg text-blue-50">
