@@ -1,26 +1,33 @@
-'use client';
-import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+"use client";
+import { CustomSearch } from "@/components/CoustomSidebar";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
+
+interface MapProps {
+    posix: [number, number]; // Latitude and Longitude as a tuple
+  }
 
 export default function Page() {
-    const Map = useMemo(
-        () =>
-            dynamic(() => import('@/components/map'), {
-                loading: () => <p>A map is loading</p>,
-                ssr: false,
-            }),
-        []
-    );
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("@/components/map"), {
+        loading: () => <p>A map is loading</p>,
+        ssr: false,
+      }),
+    []
+  );
 
-    return (
-        <>
-            <div className="bg-white-700 mx-auto w-[100vw] h-[100vh]">
-                {Map && <Map posix={[4.79029, -75.69003]} />}
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="bg-white-700 mx-auto w-[100vw] h-[100vh]">
+        {Map && <Map posix={[4.79029, -75.69003]} />}
+        <div className="absolute top-4 left-4">
+          <CustomSearch isClicked={true} />
+        </div>
+      </div>
+    </>
+  );
 }
-
 
 // import { Calendar, MapPin, Users } from "lucide-react"
 // import Image from "next/image"

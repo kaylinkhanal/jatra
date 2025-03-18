@@ -26,7 +26,7 @@ const About = () => {
   });
 
   return (
-    <div id="about" className="min-h-screen mt-30 max-w-screen">
+    <div id="about" className=" overflow-hidden mt-30 max-w-screen">
       <div className="relative mb-8 mt-0 flex flex-col items-center gap-6">
         <p className=" text-white font-general text-sm uppercase md:text-[15px]">
           Welcome to JATRA
@@ -46,7 +46,7 @@ const About = () => {
       </div>
 
       <div className="h-screen max-w-screen overflow-hidden" id="clip">
-        <div className="mask-clip-path about-image">
+        <div className="mask-clip-path max-w-screen overflow-hidden about-image">
           <video
             src="videos/about.mp4"
             loop
