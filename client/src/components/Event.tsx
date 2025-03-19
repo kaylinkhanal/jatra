@@ -124,10 +124,10 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 };
 
 const Events = () => (
-  <section id="event" className="bg-black pb-52">
-    <div className="container md:px-10">
+  <section id="event" className="bg-black overflow-hidden pb-10 max-w-screen">
+    <div className=" md:px-10">
       <div className="px-5 py-32">
-        <p className="font-circular-web text-lg text-blue-50">
+        <p className=" text-lg text-blue-50">
           Welcome to Jatra Events Manager
         </p>
         <p className="max-w-md font-circular-web text-lg text-blue-50 opacity-50">

@@ -39,9 +39,9 @@ const RegisterForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="grid gap-4  px-8">
-      <div className="flex gap-3">
-        <div className="grid gap-2 w-1/2">
+    <form onSubmit={formik.handleSubmit} className="grid gap-4 2xl:gap-6 2xl:p-20 px-8">
+      <div className="flex 2xl:flex-col 2xl:gap-6 gap-3">
+        <div className="grid gap-2 w-1/2 2xl:w-full">
           <Label htmlFor="fullName">Full Name</Label>
           <Input
             id="fullName"
@@ -55,7 +55,7 @@ const RegisterForm = () => {
             <p className="text-red-500 text-sm">{formik.errors.fullName}</p>
           )}
         </div>
-        <div className="grid gap-1 w-1/2">
+        <div className="grid gap-1 w-1/2 2xl:w-full">
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
@@ -70,8 +70,8 @@ const RegisterForm = () => {
           )}
         </div>
       </div>
-      <div className="flex gap-3 ">
-        <div className="grid gap-2 w-1/2">
+      <div className="flex 2xl:flex-col 2xl:gap-6 gap-3 ">
+        <div className="grid gap-2 w-1/2 2xl:w-full">
           <Label htmlFor="role">Role</Label>
           <select
             id="role"
@@ -89,7 +89,7 @@ const RegisterForm = () => {
             <p className="text-red-500 text-sm">{formik.errors.role}</p>
           )}
         </div>
-        <div className="grid gap-2 w-1/2">
+        <div className="grid gap-2 w-1/2 2xl:w-full">
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"
