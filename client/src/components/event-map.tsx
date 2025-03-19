@@ -61,22 +61,14 @@ export default function EventMap() {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      <Navbar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        filterType={filterType}
-        setFilterType={handleFilterChange}
-      />
-
       <div className="relative flex flex-1 overflow-hidden">
         <MapWithNoSSR events={filteredEvents} venues={venuesData} onEventSelect={handleEventSelect} />
-
-        <EventSidebar
+        {/* <EventSidebar
           event={selectedEvent}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           onBook={handleBookEvent}
-        />
+        /> */}
       </div>
     </div>
   )

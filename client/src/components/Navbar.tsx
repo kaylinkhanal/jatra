@@ -26,16 +26,7 @@ export default function Navbar({ searchQuery, setSearchQuery, filterType, setFil
       </div>
 
       <div className="hidden flex-1 items-center justify-center gap-4 md:flex">
-        <div className="relative w-full max-w-md">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search events, artists, or locations..."
-            className="w-full pl-8"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+     
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -9,8 +9,9 @@ import "leaflet-defaulticon-compatibility"
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import type { EventData, VenueData } from "@/lib/types"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, MapPin, Music, Users } from "lucide-react"
+import { Calendar, Clock, MapPin, Music, Search, Users } from "lucide-react"
 import { formatDate } from "@/lib/utils"
+import { Input } from "./ui/input"
 
 interface MapProps {
   events: EventData[]
@@ -84,6 +85,17 @@ export default function Map({ events, venues, onEventSelect, onBookEvent }: MapP
         style={{ height: "100%", width: "100%" }}
         className="z-0"
       >
+
+        <div className="absolute left-24 top-4 z-999 bg-white">
+        <div className="relative w-full max-w-md">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search events, artists, or locations..."
+            className="w-full pl-8"
+          />
+        </div>
+        </div>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
