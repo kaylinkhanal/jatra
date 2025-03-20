@@ -32,9 +32,9 @@ export default function EventMap() {
   const [filterType, setFilterType] = useState<string | null>(null)
 
   useEffect(() => {
-    const filtered = events.filter((event) => {
+    const filtered = events.filter((event: any) => {
       const titleMatch = event.title.toLowerCase().includes(searchQuery.toLowerCase())
-      const artistMatch = event.artists.some((artist) => artist.toLowerCase().includes(searchQuery.toLowerCase()))
+      const artistMatch = event.artists.some((artist: any) => artist.toLowerCase().includes(searchQuery.toLowerCase()))
       const venueMatch = event.venue.address.toLowerCase().includes(searchQuery.toLowerCase())
       const typeMatch = !filterType || event.event_type === filterType
 

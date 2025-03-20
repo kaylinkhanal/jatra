@@ -1,12 +1,13 @@
-
-"use client"
-
+'use client';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+import React from 'react';
+import Avatar from './avatar';
+import { DatePickerWithRange } from './datePicker';
 import { useEffect, useState } from "react"
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
-import L from "leaflet"
-import "leaflet/dist/leaflet.css"
-import "leaflet-defaulticon-compatibility"
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import type { EventData, VenueData } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, MapPin, Music, Search, Users } from "lucide-react"
@@ -61,31 +62,21 @@ export default function Map({ events, venues, onEventSelect, onBookEvent }: MapP
     })
   }
 
-  // Component to recenter map when filtered events change
-  function MapUpdater({ events }: { events: EventData[] }) {
-    const map = useMap()
-
-    useEffect(() => {
-      if (events.length > 0) {
-        // Calculate bounds of all events
-        const bounds = L.latLngBounds(events.map((event) => [event.venue.latitude, event.venue.longitude]))
-        map.fitBounds(bounds, { padding: [50, 50] })
-      }
-    }, [events, map])
-
-    return null
-  }
 
   return (
-    <div className="h-full w-full">
-      <MapContainer
-        center={mapCenter}
-        zoom={13}
-        scrollWheelZoom={true}
-        style={{ height: "100%", width: "100%" }}
-        className="z-0"
-      >
+    <MapContainer center={[27.700769, 85.300140]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+    
+      <div className="z-999 absolute right-40 top-6">
+        <DatePickerWithRange />
+      </div>
 
+      <div className="z-999 absolute right-20 top-6">
+        <Avatar/>
+      </div>
         <div className="absolute left-24 top-4 z-999 bg-white">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -101,7 +92,7 @@ export default function Map({ events, venues, onEventSelect, onBookEvent }: MapP
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <MapUpdater events={events} />
+
 
         {events.map((event) => (
           <Marker
@@ -200,6 +191,5 @@ export default function Map({ events, venues, onEventSelect, onBookEvent }: MapP
           </Marker>
         ))}
       </MapContainer>
-    </div>
   )
 }
