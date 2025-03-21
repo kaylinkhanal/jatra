@@ -11,15 +11,19 @@ import ForgetPasswordModel from "./ForgetPasswordModel";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { addUserDetails } from "@/lib/redux/features/user/userSlice";
 
 const LoginForm = () => {
   const router = useRouter();
 
+  const dispatch = useDispatch()
   const handleLogin = async (values: any) => {
     try {
       const res = await axios.post("/api/auth/login", values);
       if (res.status == 200 || res.status == 201) {
         toast.success(res.data.msg);
+        dispatch(addUserDetails(res.data))
         router.push("/home");
       }
     } catch (err: any) {

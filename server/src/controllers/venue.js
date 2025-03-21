@@ -10,6 +10,9 @@ const Venue = require('../models/venue')
     return res?.json(data)
   }
 
+
+  
+
   const getVenueById = async(req, res) => {
     const data = await Venue.findById(req.params.id)
     return res?.json(data)
