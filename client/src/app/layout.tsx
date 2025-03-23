@@ -30,9 +30,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-        {children}
-        </PersistGate>
+          <PersistGate loading={null} persistor={persistor}>
+          {children}
+          </PersistGate>
         </Provider>
       <Toaster/>
       </body>

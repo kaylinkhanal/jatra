@@ -1,8 +1,13 @@
 const Venue = require('../models/venue')
 
   const createNewVenue =async (req, res) => {
-    const data = await Venue.create(req.body)
-    if(data) return res.json({msg: "Venue Created !!"})
+    try{
+      const data = await Venue.create(req.body)
+      if(data) return res.json({msg: "Venue Created !!"})
+    }catch(err){
+      return res.status(500).json({msg: "Venue creating failed due to server error!"})
+    }
+
   }
 
   const getVenue = async(req, res) => {
