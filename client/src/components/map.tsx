@@ -23,6 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
+import axios from 'axios';
 
 interface MapProps {
   events: EventData[]
@@ -41,7 +42,7 @@ const createVenueIcon = () => {
   })
 }
 
-function LocationMarker({position , setPosition ,setIsDialogOpen}) {
+function LocationMarker({position , setPosition ,setIsDialogOpen, venueAddress}) {
 
   const map = useMapEvents({
     click(e) {
@@ -53,6 +54,7 @@ function LocationMarker({position , setPosition ,setIsDialogOpen}) {
   })
 
   const handleMarkerDragEnd = (event:any) => {
+    console.log(event)
     setPosition(event.target._latlng)
       };
 
@@ -63,8 +65,7 @@ function LocationMarker({position , setPosition ,setIsDialogOpen}) {
     }}
     draggable={true}  position={position}  icon={createVenueIcon()}>
       <Popup>
-      <Button className='z-9999'><Check onClick={()=> setIsDialogOpen(true)}/></Button>
-
+      {venueAddress}
       </Popup>
     </Marker>
   )
@@ -72,6 +73,7 @@ function LocationMarker({position , setPosition ,setIsDialogOpen}) {
 
 export default function CustomMap({ events, venues, onEventSelect, onBookEvent }: MapProps) {
   const [mapCenter, setMapCenter] = useState<[number, number]>([27.700769, 85.30014])
+  const [venueAddress,setVenueAddress] = useState('')
   const [isClient, setIsClient] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isPickStart, setIsPickStart] = useState(false)
@@ -103,13 +105,39 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
     })
   }
 
+  const getLocationDetails= async()=>{
+    const {data} = await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${position?.lat}&lon=${position?.lng}&apiKey=2bcb950de5554a3bb5b51add57015ba1`)
+    if(data) setVenueAddress(data.features?.[0]?.properties?.formatted)
+   }
 
+  useEffect(()=>{
+    if(position?.lat) {
+      getLocationDetails()
+    }
+  },[position?.lat])
+
+
+const handleResetPick =  () => {
+  setIsPickStart(false)
+}
+
+const saveVenue =async () => {
+ const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/venue`,  {
+  capacity: 500,
+  longitude: position?.lng,
+  title: "PARTY TITLE",
+  latitude: position?.lat,
+  venueImage: "https://example.com/centralpark.jpg",
+  address: venueAddress,
+})
+console.log(data)
+}
 
 
 
   return (
     <MapContainer  center={[27.700769, 85.300140]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%', zIndex:899 }}>
-     {isPickStart && <LocationMarker setPosition={setPosition} position={position} setIsDialogOpen={setIsDialogOpen}/>}
+     {isPickStart && <LocationMarker setPosition={setPosition} venueAddress={venueAddress} position={position} setIsDialogOpen={setIsDialogOpen}/>}
      
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -117,7 +145,12 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
       />
 
       <div className="z-999 absolute flex right-40 top-6">
-       {isPickStart ? <div className='flex gap-2'><Button>Pick On Map {JSON.stringify(position)} <MapPinIcon/> </Button><X onClick={()=> setIsPickStart(false)}/> </div> : <Button className='bg-orange-400 rounded mx-2' onClick={()=>setIsPickStart(true)}>Add Venue</Button>}
+    
+     {isPickStart ? ( <div className='flex gap-2'><Button>Pick On Map  <MapPinIcon/> </Button>
+     <Button onClick={()=>handleResetPick()}><X /></Button> 
+      <Button onClick={()=> setIsDialogOpen(true)} className='z-9999'><Check /></Button> </div>)
+      :
+      <Button className='bg-orange-400 rounded mx-2' onClick={()=>setIsPickStart(true)}>Add Venue</Button>}
         <DatePickerWithRange />
       </div>
 
@@ -242,13 +275,14 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
 
 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button variant="outline">Create New Venue</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] z-999">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Create New Venue</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Co-ordinates: {position?.lat}, {position?.lng}
+        
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -264,9 +298,21 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
             </Label>
             <Input id="capacity"  className="col-span-3" />
           </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="capacity" className="text-right">
+              Address
+            </Label>
+            <Input readOnly value={venueAddress} id="capacity"  className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="capacity" className="text-right">
+              Image
+            </Label>
+            <Input type='file' id="capacity"  className="col-span-3" />
+          </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button onClick={saveVenue}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

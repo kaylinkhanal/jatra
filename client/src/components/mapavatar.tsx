@@ -9,6 +9,8 @@ import {
 import { useMap } from "react-leaflet";
 import L, { Marker } from "leaflet";
 import { createPortal } from "react-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "@/lib/redux/features/user/userSlice";
 
 interface MapAvatarProps {
   user: {
@@ -19,6 +21,7 @@ interface MapAvatarProps {
 }
 
 function MapAvatar({ user, position }: MapAvatarProps) {
+
   const map = useMap();
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [marker, setMarker] = useState<Marker | null>(null);
@@ -65,7 +68,7 @@ function MapAvatar({ user, position }: MapAvatarProps) {
       <DropdownMenuContent>
         <DropdownMenuItem
           onClick={() => {
-            console.log("Logging out...");
+ 
             
           }}
         >
