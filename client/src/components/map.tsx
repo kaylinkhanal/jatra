@@ -78,6 +78,9 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isPickStart, setIsPickStart] = useState(false)
   const [position, setPosition] = useState(null)
+  const [venueTitle, setVenueTitle] = useState('');
+  const [capacity, setCapacity] = useState('');
+
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -105,10 +108,26 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
     })
   }
 
-  const getLocationDetails= async()=>{
-    const {data} = await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${position?.lat}&lon=${position?.lng}&apiKey=2bcb950de5554a3bb5b51add57015ba1`)
-    if(data) setVenueAddress(data.features?.[0]?.properties?.formatted)
-   }
+  const getLocationDetails = async () => {
+    if (!position) return;
+    try {
+      const { data } = await axios.get(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${position.lat}&lon=${position.lng}&apiKey=2bcb950de5554a3bb5b51add57015ba1`
+      );
+      if (data && data.features.length > 0) {
+        const address = data.features[0]?.properties?.formatted || "Unknown Address";
+        setVenueAddress(address);
+        
+       
+        setVenueTitle(data.features[0]?.properties?.name || `Venue at ${position.lat.toFixed(4)}, ${position.lng.toFixed(4)}`);
+        
+       
+        setCapacity("5000");
+      }
+    } catch (error) {
+      console.error("Error fetching location details:", error);
+    }
+  };
 
   useEffect(()=>{
     if(position?.lat) {
@@ -117,21 +136,50 @@ export default function CustomMap({ events, venues, onEventSelect, onBookEvent }
   },[position?.lat])
 
 
-const handleResetPick =  () => {
-  setIsPickStart(false)
-}
+const handleResetPick = () => {
+    setIsPickStart(false);
+    setPosition(null);
+  };
 
-const saveVenue =async () => {
- const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/venue`,  {
-  capacity: 500,
-  longitude: position?.lng,
-  title: "PARTY TITLE",
-  latitude: position?.lat,
-  venueImage: "https://example.com/centralpark.jpg",
-  address: venueAddress,
-})
-console.log(data)
-}
+  const saveVenue = async () => {
+    if (!venueTitle || !capacity || !position) {
+      alert("Please fill all fields before saving!");
+      return;
+    }
+    const numericCapacity = Number(capacity);
+    if (isNaN(numericCapacity) || numericCapacity <= 0) {
+      alert("Please enter a valid capacity (a positive number)!");
+      return;
+    }
+    
+    try {
+      const payload = {
+        title: venueTitle,
+        capacity: Number(capacity),
+        longitude: position.lng,
+        latitude: position.lat,
+        venueImage: "https://example.com/venue.jpg",
+        address: venueAddress,
+      };
+      console.log("Saving venue with payload:", payload);
+
+    const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/venue`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+      console.log("Venue saved successfully:", data);
+      alert("Venue saved successfully !!!!");
+      setIsDialogOpen(false);
+      setVenueTitle('');
+      setCapacity('5000');
+      setIsPickStart(false);
+    } catch (error) {
+      console.error("Error saving venue:", error);
+      alert("Failed to save venue. Please try again.....")
+    }
+  };
 
 
 
@@ -290,13 +338,13 @@ console.log(data)
             <Label htmlFor="venueTitle" className="text-right">
               Venue Title
             </Label>
-            <Input id="venueTitle"  className="col-span-3" />
+            <Input readOnly id="venueTitle" value={venueTitle} onChange={(e) => setVenueTitle(e.target.value)} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
               Capacity
             </Label>
-            <Input id="capacity"  className="col-span-3" />
+           <Input id="capacity" value={capacity} onChange={(e) => setCapacity(e.target.value)} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
