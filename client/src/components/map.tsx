@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label"
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import VenueBookingSheet from './VenueDetails';
 
 interface MapProps {
   events: EventData[]
@@ -140,7 +141,6 @@ const saveVenue =async () => {
 }
 const handleVenueClick = async(id) => {
   setVenueDetailsOpen(!venueDetailsOpen)
-
  const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
  if(data) setVenueBookings(data)
 
@@ -276,7 +276,7 @@ const handleVenueClick = async(id) => {
 
 <Sheet onOpenChange={setVenueDetailsOpen} open={venueDetailsOpen}>
 
-  <SheetContent className='z-999'>
+  {/* <SheetContent className='z-999'>
     <SheetHeader>
       <SheetTitle>Book the venue!!</SheetTitle>
       <SheetDescription>
@@ -293,7 +293,8 @@ const handleVenueClick = async(id) => {
       </SheetDescription>
       
     </SheetHeader>
-  </SheetContent>
+  </SheetContent> */}
+  <VenueBookingSheet venueDetails={venueDetails} venueBookings={venueBookings} />
 </Sheet>
 
 
