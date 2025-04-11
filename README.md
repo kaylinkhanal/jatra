@@ -10,7 +10,7 @@ This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application d
     * [x] Login
     * [ ] Preference
     * [x] Register  -> password hashing (bcrypt)
-    * [ ] Logout 
+    * [x] Logout 
     * [ ] Forgot Password -> email (nodemailer)
     * [ ] Change Password 
     * [ ] Bio update 

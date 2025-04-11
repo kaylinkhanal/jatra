@@ -3,20 +3,24 @@ import { createSlice } from '@reduxjs/toolkit'
 export const userSlice = createSlice({
   name: 'counter',
   initialState: {
-   userDetails: {}
+   userDetails: {},
+   selectedUser: {},
+   openDetails: false,
   },
   reducers: {
     addUserDetails: (state,action) => {
      state.userDetails = action.payload
     },
     logout: (state, action) => {
-      debugger;
       state.userDetails = {}
-    }
+    },
+    addSelectedUser: (state, action) => {
+      state.selectedUser =  action.payload
+    },
   }
 })
 
 
-export const { addUserDetails, logout } = userSlice.actions
+export const { addUserDetails, logout ,addSelectedUser} = userSlice.actions
 
 export default userSlice.reducer

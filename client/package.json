@@ -27,6 +27,8 @@
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "gsap": "^3.12.7",
+    "jodit": "^4.6.1",
+    "jodit-react": "^5.2.18",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.479.0",

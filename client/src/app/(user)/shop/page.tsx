@@ -1,10 +1,10 @@
 import React from 'react'
 
 const Shop = () => {
-  return (
+
+    return (
     <div>
 
-        Shop
         </div>
   )
 }

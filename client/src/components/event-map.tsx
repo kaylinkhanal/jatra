@@ -4,11 +4,12 @@
 import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import type { EventData } from "@/lib/types"
-import { eventsData, venuesData } from "@/lib/data"
+import { eventsData } from "@/lib/data"
 import EventSidebar from "@/components/event-sidebar"
 
 import { MapPin } from "lucide-react"
 import Navbar from "./Navbar"
+import axios from "axios"
 
 // Dynamically import the Map component with SSR disabled
 const MapWithNoSSR = dynamic(() => import("@/components/map"), {
@@ -30,7 +31,7 @@ export default function EventMap() {
   const [filteredEvents, setFilteredEvents] = useState<EventData[]>(eventsData)
   const [searchQuery, setSearchQuery] = useState("")
   const [filterType, setFilterType] = useState<string | null>(null)
-
+  const [venuesData, setVenuesData] = useState([])
   useEffect(() => {
     const filtered = events.filter((event: any) => {
       const titleMatch = event.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -43,6 +44,15 @@ export default function EventMap() {
 
     setFilteredEvents(filtered)
   }, [searchQuery, filterType, events])
+
+
+  const fetchVenues = async  () => {
+   const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/venue`)
+   setVenuesData(data)
+  }
+  useEffect(()=>{
+    fetchVenues()
+  },[])
 
   const handleEventSelect = (event: EventData) => {
     setSelectedEvent(event)

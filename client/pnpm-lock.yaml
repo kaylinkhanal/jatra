@@ -59,6 +59,12 @@ importers:
       gsap:
         specifier: ^3.12.7
         version: 3.12.7
+      jodit:
+        specifier: ^4.6.1
+        version: 4.6.1
+      jodit-react:
+        specifier: ^5.2.18
+        version: 5.2.18(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -1058,6 +1064,10 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
+  autobind-decorator@2.4.0:
+    resolution: {integrity: sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==}
+    engines: {node: '>=8.10', npm: '>=6.4.1'}
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
@@ -1765,6 +1775,15 @@ packages:
   jiti@2.4.2:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
+
+  jodit-react@5.2.18:
+    resolution: {integrity: sha512-SoiVZ+HraFqEhjJleGn7UF7O3PwYJrLK2inTF/D1efIgJnDEdJ2tCCFRm9tPUYsz0g4xed13eY0hQFTvdSd8Ew==}
+    peerDependencies:
+      react: ~0.14 || ^15 || ^16 || ^17 || ^18 || ^19
+      react-dom: ~0.14 || ^15 || ^16 || ^17 || ^18 || ^19
+
+  jodit@4.6.1:
+    resolution: {integrity: sha512-NGZQ9rAfQCLJdjvZ0PO6g+GrGpB58xvnZcRUnOcFiB2WeJyv72gUxx1zg8NspWhIEBmoW0qsyNN+Wt3UjqPl6w==}
 
   js-cookie@2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
@@ -3517,6 +3536,8 @@ snapshots:
 
   asynckit@0.4.0: {}
 
+  autobind-decorator@2.4.0: {}
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
@@ -4376,6 +4397,16 @@ snapshots:
       set-function-name: 2.0.2
 
   jiti@2.4.2: {}
+
+  jodit-react@5.2.18(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      jodit: 4.6.1
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
+  jodit@4.6.1:
+    dependencies:
+      autobind-decorator: 2.4.0
 
   js-cookie@2.2.1: {}
 

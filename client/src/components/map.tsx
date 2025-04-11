@@ -24,6 +24,9 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import VenueBookingSheet from './VenueDetails';
 
 interface MapProps {
   events: EventData[]
@@ -71,13 +74,17 @@ function LocationMarker({position , setPosition ,setIsDialogOpen, venueAddress})
   )
 }
 
-export default function CustomMap({ events, venues, onEventSelect, onBookEvent }: MapProps) {
+export default function CustomMap({  venues, onEventSelect, onBookEvent }: MapProps) {
   const [mapCenter, setMapCenter] = useState<[number, number]>([27.700769, 85.30014])
   const [venueAddress,setVenueAddress] = useState('')
   const [isClient, setIsClient] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isPickStart, setIsPickStart] = useState(false)
   const [position, setPosition] = useState(null)
+  const {userDetails} = useSelector(state=> state.user)
+  const [venueDetailsOpen, setVenueDetailsOpen]=  useState(false)
+  const [venueDetails, setVenueDetails]=useState({})
+  const [venueBookings,setVenueBookings] = useState([])
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -130,9 +137,14 @@ const saveVenue =async () => {
   venueImage: "https://example.com/centralpark.jpg",
   address: venueAddress,
 })
-console.log(data)
-}
 
+}
+const handleVenueClick = async(id) => {
+  setVenueDetailsOpen(!venueDetailsOpen)
+ const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
+ if(data) setVenueBookings(data)
+
+}
 
 
   return (
@@ -150,7 +162,7 @@ console.log(data)
      <Button onClick={()=>handleResetPick()}><X /></Button> 
       <Button onClick={()=> setIsDialogOpen(true)} className='z-9999'><Check /></Button> </div>)
       :
-      <Button className='bg-orange-400 rounded mx-2' onClick={()=>setIsPickStart(true)}>Add Venue</Button>}
+      userDetails?.data?.role == 'admin' &&  <Button className='bg-orange-400 rounded mx-2' onClick={()=>setIsPickStart(true)}>Add Venue</Button>}
         <DatePickerWithRange />
       </div>
 
@@ -174,7 +186,7 @@ console.log(data)
 
 
 
-        {events.map((event) => (
+        {/* {events.map((event) => (
           <Marker
             key={event.id}
             position={[event.venue.latitude, event.venue.longitude]}
@@ -247,29 +259,43 @@ console.log(data)
               </div>
             </Popup>
           </Marker>
-        ))}
+        ))} */}
 
         {venues.map((venue) => (
-          <Marker key={venue.id} position={[venue.latitude, venue.longitude]} icon={createVenueIcon()}>
-            <Popup>
-              <div className="w-64 p-1">
-                <div
-                  className="mb-2 h-32 w-full rounded-md bg-cover bg-center"
-                  style={{ backgroundImage: `url(${venue.venueImage || "/placeholder.svg?height=128&width=256"})` }}
-                />
-                <h3 className="text-lg font-bold">{venue.name}</h3>
-                <div className="my-2 flex items-center gap-1 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4" />
-                  <span>{venue.address}</span>
-                </div>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <Users className="h-4 w-4" />
-                  <span>Capacity: {venue.capacity}</span>
-                </div>
-              </div>
-            </Popup>
+          <Marker key={venue.id}
+          eventHandlers={{
+            click: (e) => {
+              handleVenueClick(venue._id)
+              setVenueDetails(venue)
+            },
+          }}
+          position={[venue.latitude, venue.longitude]} icon={createVenueIcon()}>
+     
           </Marker>
         ))}
+
+<Sheet onOpenChange={setVenueDetailsOpen} open={venueDetailsOpen}>
+
+  {/* <SheetContent className='z-999'>
+    <SheetHeader>
+      <SheetTitle>Book the venue!!</SheetTitle>
+      <SheetDescription>
+    <p>
+       <strong>Title</strong>:{venueDetails?.title}
+    </p>
+    <p>
+       <strong>Capacity</strong>:{venueDetails?.capacity}
+    </p>
+    <p>
+       <strong>Address</strong>:{venueDetails?.address}
+    </p>
+    {JSON.stringify(venueBookings)}
+      </SheetDescription>
+      
+    </SheetHeader>
+  </SheetContent> */}
+  <VenueBookingSheet venueDetails={venueDetails} venueBookings={venueBookings} />
+</Sheet>
 
 
 

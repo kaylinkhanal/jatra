@@ -1,4 +1,7 @@
 const Venue = require('../models/venue')
+const Booking = require('../models/booking')
+
+
 
   const createNewVenue =async (req, res) => {
     try{

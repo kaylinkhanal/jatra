@@ -10,7 +10,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
   } from "@/components/ui/sidebar"
-import { Calendar, Home, Inbox } from "lucide-react"
+import { Calendar, ChartBar, Home, Inbox, MessageCircle } from "lucide-react"
 import Link from "next/link"
   const items = [
     {
@@ -22,6 +22,11 @@ import Link from "next/link"
       title: "Events",
       url: "/events",
       icon: Inbox,
+    },
+    {
+      title: "Chat",
+      url: "/chat",
+      icon: MessageCircle,
     },
     {
       title: "Shop",
