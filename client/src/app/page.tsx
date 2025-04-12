@@ -35,7 +35,7 @@ const Home = () => {
       {loading && <PreLoader />}
       {!loading && (
         <div className="min-h-screen max-w-full relatice bg-black bg-gra-50">
-          <NavBar />
+          {/* <NavBar /> */}
           <section
             className="bg-orange-50 overflow-hidden text-white bg-[url('/lakhey.jpg')] bg-center h-screen"
             style={{

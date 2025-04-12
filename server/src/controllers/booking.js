@@ -18,9 +18,18 @@ const Booking = require('../models/booking')
       return res?.status(500).json({message: err.message})
     }
   }
+
+  const bookVenue = async(req, res) => {
+    try{
+      const data = await Booking.create(req.body)
+      return res?.json(data)
+    }catch(err){
+      return res?.status(500).json({message: "something went wrong"})
+    }
+  } 
   
 
-module.exports = { getAllBookings ,getBookingsByVenueId}
+module.exports = { getAllBookings ,getBookingsByVenueId, bookVenue}
 
 
 

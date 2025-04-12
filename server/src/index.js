@@ -5,6 +5,7 @@ const port = process.env.PORT
 const UserRoute = require('./routes/user')
 const VenueRoute = require('./routes/venue')
 const BookingRoute = require('./routes/booking')
+const EventRoute = require('./routes/event')
 const { rateLimit } = require('express-rate-limit')
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, 
@@ -27,6 +28,7 @@ dbConnect()
 app.use(UserRoute)
 app.use(VenueRoute)
 app.use(BookingRoute)
+app.use(EventRoute)
 
 
 

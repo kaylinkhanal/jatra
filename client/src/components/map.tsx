@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
-import React from 'react';
+import React, { use } from 'react';
 import Avatar from './avatar';
 import { DatePickerWithRange } from './datePicker';
 import { useEffect, useState } from "react"
@@ -27,6 +27,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 import VenueBookingSheet from './VenueDetails';
+import EventDailog from './eventDailog';
 
 interface MapProps {
   events: EventData[]
@@ -85,6 +86,8 @@ export default function CustomMap({  venues, onEventSelect, onBookEvent }: MapPr
   const [venueDetailsOpen, setVenueDetailsOpen]=  useState(false)
   const [venueDetails, setVenueDetails]=useState({})
   const [venueBookings,setVenueBookings] = useState([])
+  const [selectedVenueId,setSelectedVenueId] = useState('')
+  const [createdEvent, setCreatedEvent] = useState([])
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -142,7 +145,10 @@ const saveVenue =async () => {
 const handleVenueClick = async(id) => {
   setVenueDetailsOpen(!venueDetailsOpen)
  const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
+ const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/event/${userDetails?.data?._id}`)
  if(data) setVenueBookings(data)
+  if (res?.data) setCreatedEvent(res?.data)
+  setSelectedVenueId(id)
 
 }
 
@@ -163,6 +169,9 @@ const handleVenueClick = async(id) => {
       <Button onClick={()=> setIsDialogOpen(true)} className='z-9999'><Check /></Button> </div>)
       :
       userDetails?.data?.role == 'admin' &&  <Button className='bg-orange-400 rounded mx-2' onClick={()=>setIsPickStart(true)}>Add Venue</Button>}
+        {
+          (userDetails?.data?.role === "artist" ||userDetails?.data?.role === "organizer")  && <EventDailog />
+        }
         <DatePickerWithRange />
       </div>
 
@@ -294,7 +303,7 @@ const handleVenueClick = async(id) => {
       
     </SheetHeader>
   </SheetContent> */}
-  <VenueBookingSheet venueDetails={venueDetails} venueBookings={venueBookings} />
+  <VenueBookingSheet venueDetails={venueDetails} venueBookings={venueBookings} selectedVenueId={selectedVenueId} createdEvent={createdEvent}/>
 </Sheet>
 
 

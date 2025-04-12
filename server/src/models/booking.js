@@ -7,6 +7,11 @@ const bookingSchema = new mongoose.Schema({
       venue: {
         ref: 'Venue', type: mongoose.Schema.Types.ObjectId
       },
+      status: {
+        type: String,
+        enum:["In Review", "Declined", "Approved", "Pending"],
+        default:"Pending"
+      },
       booked_date: Date
 },);
 

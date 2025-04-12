@@ -11,9 +11,16 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
-export default function VenueBookingSheet({ venueDetails, venueBookings }) {
+export default function VenueBookingSheet({ venueDetails, venueBookings ,createdEvent, selectedVenueId}) {
   const [date, setDate] = useState<Date>();
+  const [eventId, setEventId] = useState(null);
+  const [selectedTitle, setSelectedTitle] = useState("Your Booking");
+  const {userDetails} = useSelector(state=> state.user)
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -57,11 +64,28 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
           });
         }
       ),
-    time: Yup.string().required("Time is required"),
   });
 
-  const handleBookingEvent = (values) => {
-    console.log(values);
+  const handleBookingEvent = async(values) => {
+    const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,
+       {event: eventId, venue: selectedVenueId,booked_date:values.date}
+      )
+
+      if (data) {
+        toast.success("Soon You will get an email for your booking");
+      }
+  };
+
+
+  const handleValueChange = (value) => {
+    setEventId(value);
+    const selectedEvent = createdEvent.find((event) => event._id === value);
+    if (selectedEvent) {
+      setSelectedTitle(selectedEvent.title);
+    } else {
+        setSelectedTitle("Your Booking");
+    }
+    console.log(value);
   };
 
   return (
@@ -140,7 +164,6 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
           <Formik
             initialValues={{
               date: null,
-              time: "",
             }}
             validationSchema={bookingSchema}
             onSubmit={(values) => {
@@ -167,6 +190,7 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
                       <Calendar
                         mode="single"
                         selected={date}
+                        disabled={(date) =>date < new Date()}
                         onSelect={(selectedDate) => {
                           setDate(selectedDate);
                           setFieldValue("date", selectedDate);
@@ -179,23 +203,27 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
                     <div className="text-red-500 text-xs mt-1">{errors.date}</div>
                   )}
                 </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-orange-700 mb-1">
-                    Time
-                  </label>
-                  <Field
-                    type="time"
-                    name="time"
-                    className="w-full p-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                  />
-                  {errors.time && touched.time && (
-                    <div className="text-red-500 text-xs mt-1">
-                      {errors.time}
-                    </div>
+                <div className="w-64">
+                  {createdEvent && (userDetails.role === "artist" || userDetails.role === "organizer") &&createdEvent.length > 0 && (
+                  <Select value={eventId} onValueChange={handleValueChange}>
+                    <SelectTrigger className="w-full bg-orange-50 border-orange-300 text-orange-900 focus:ring-orange-500 focus:border-orange-500">
+                      <SelectValue placeholder={selectedTitle} />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-orange-200 z-999">
+                      {createdEvent.map((event) => (
+                        <SelectItem
+                          key={event._id}
+                          value={event._id}
+                          className="text-orange-900 hover:bg-orange-100 focus:bg-orange-100 border-b"
+                        >
+                          {event.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                    
                   )}
-                </div>
-
+            </div>
                 <button
                   type="submit"
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium py-2 px-3 rounded transition duration-200 mt-1"
