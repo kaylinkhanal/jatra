@@ -1,6 +1,6 @@
 
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Clock, MapPin, Users } from "lucide-react";
 import { SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { format } from "date-fns";
@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-export default function VenueBookingSheet({ venueDetails, venueBookings }) {
+export default function VenueBookingSheet({ venueDetails, venueBookings ,selectedVenueId}) {
   const [date, setDate] = useState<Date>();
-
+  const [events,setEvents] = useState([])
+  const {userDetails} =useSelector(state=>state.user)
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -57,12 +60,27 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
           });
         }
       ),
-    time: Yup.string().required("Time is required"),
   });
 
-  const handleBookingEvent = (values) => {
-    console.log(values);
+  const handleBookingEvent = async(values) => {
+    await  axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,
+        {
+          "event": "65f0123456789abcdef01234",
+          "venue": selectedVenueId,
+          "booked_date": date,
+          "userId": userDetails?.data._id
+        }
+      )
   };
+
+  const fetchUserEvents = async() => {
+   const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/events/${userDetails?.data._id}`)
+   setEvents(data)
+  }
+
+  useEffect(()=>{
+    fetchUserEvents()
+  },[])
 
   return (
     <SheetContent className="overflow-y-auto z-999 p-2">
@@ -144,6 +162,7 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
             }}
             validationSchema={bookingSchema}
             onSubmit={(values) => {
+              debugger;
               handleBookingEvent(values);
             }}
           >
@@ -166,6 +185,7 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
                     <PopoverContent className="w-auto p-0 z-999" align="start">
                       <Calendar
                         mode="single"
+                        disabled={(date) =>date < new Date()}
                         selected={date}
                         onSelect={(selectedDate) => {
                           setDate(selectedDate);
@@ -179,25 +199,11 @@ export default function VenueBookingSheet({ venueDetails, venueBookings }) {
                     <div className="text-red-500 text-xs mt-1">{errors.date}</div>
                   )}
                 </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-orange-700 mb-1">
-                    Time
-                  </label>
-                  <Field
-                    type="time"
-                    name="time"
-                    className="w-full p-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                  />
-                  {errors.time && touched.time && (
-                    <div className="text-red-500 text-xs mt-1">
-                      {errors.time}
-                    </div>
-                  )}
-                </div>
+                  {JSON.stringify(events)}
+           
 
                 <button
-                  type="submit"
+                onClick={handleBookingEvent}
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium py-2 px-3 rounded transition duration-200 mt-1"
                 >
                   Book Venue

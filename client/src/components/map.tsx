@@ -85,6 +85,7 @@ export default function CustomMap({  venues, onEventSelect, onBookEvent }: MapPr
   const [venueDetailsOpen, setVenueDetailsOpen]=  useState(false)
   const [venueDetails, setVenueDetails]=useState({})
   const [venueBookings,setVenueBookings] = useState([])
+  const [selectedVenueId,setSelectedVenueId] = useState('')
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -143,6 +144,7 @@ const handleVenueClick = async(id) => {
   setVenueDetailsOpen(!venueDetailsOpen)
  const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
  if(data) setVenueBookings(data)
+  setSelectedVenueId(id)
 
 }
 
@@ -274,7 +276,7 @@ const handleVenueClick = async(id) => {
           </Marker>
         ))}
 
-<Sheet onOpenChange={setVenueDetailsOpen} open={venueDetailsOpen}>
+<Sheet  onOpenChange={setVenueDetailsOpen} open={venueDetailsOpen}>
 
   {/* <SheetContent className='z-999'>
     <SheetHeader>
@@ -294,7 +296,7 @@ const handleVenueClick = async(id) => {
       
     </SheetHeader>
   </SheetContent> */}
-  <VenueBookingSheet venueDetails={venueDetails} venueBookings={venueBookings} />
+  <VenueBookingSheet selectedVenueId={selectedVenueId} venueDetails={venueDetails} venueBookings={venueBookings} />
 </Sheet>
 
 

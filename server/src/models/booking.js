@@ -7,12 +7,18 @@ const bookingSchema = new mongoose.Schema({
       venue: {
         ref: 'Venue', type: mongoose.Schema.Types.ObjectId
       },
+      status:{
+        enum: ["In Review", "Declined", "Approved","Pending"],
+        type: String,
+        default: "Pending"
+      },
       booked_date: Date
 },);
 
 const Booking = mongoose.model('Booking', bookingSchema);
 
 module.exports = Booking;
+
 
 
 

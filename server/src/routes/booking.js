@@ -1,9 +1,11 @@
 const { Router } = require("express");
-const { getAllBookings,getBookingsByVenueId } = require("../controllers/booking");
+const { getAllBookings,getBookingsByVenueId, createBooking } = require("../controllers/booking");
 const app = Router();
 
 app.get('/bookings',  getAllBookings )
+
 app.get('/bookings/:venueId',  getBookingsByVenueId )
+app.post('/bookings',  createBooking )
 
 
 

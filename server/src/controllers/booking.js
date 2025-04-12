@@ -1,4 +1,6 @@
 const Booking = require('../models/booking')
+const User = require('../models/user')
+const sendEmail = require('../utils/mail')
 
   const getAllBookings = async(req, res) => {
     try{
@@ -19,10 +21,16 @@ const Booking = require('../models/booking')
     }
   }
   
-
-module.exports = { getAllBookings ,getBookingsByVenueId}
-
-
-
-
+  const createBooking = async(req, res) => {
+    const {userId, event,venue, booked_date} = req.body
+    try{
+      const user = await User.findById(userId)
+      sendEmail( "kyalin.khanal@gmail.com",user.email, "Your request is is Review!!", "Your request is is Review!!", "<p>Your request is is Review!!</p>")
+      await Booking.create({venue,event, booked_date})
+    }
+    catch(err){
+      return res?.status(500).json({message: err.message})
+      }
+  }
+module.exports = { getAllBookings ,createBooking,getBookingsByVenueId}
 
