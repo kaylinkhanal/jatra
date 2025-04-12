@@ -3,7 +3,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider  open={false}>
+    <SidebarProvider  open={false} className="overflow-hidden">
       <AppSidebar />
       <main>
         {children}
