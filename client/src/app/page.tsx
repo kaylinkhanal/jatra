@@ -34,8 +34,7 @@ const Home = () => {
     <div>
       {loading && <PreLoader />}
       {!loading && (
-        <div className="min-h-screen max-w-full relatice bg-black bg-gra-50">
-          <NavBar />
+        <div className="min-h-screen max-w-full relative bg-black overflow-x-hidden">
           <section
             className="bg-orange-50 overflow-hidden text-white bg-[url('/lakhey.jpg')] bg-center h-screen"
             style={{
@@ -44,11 +43,11 @@ const Home = () => {
           >
             <div className="w-full h-screen absolute">
               <div className="container mx-auto px-4 flex items-center relative top-1/2">
-                <div className="md:w-1/2 2xl:w-[60%] mb-8 md:mb-0 p-3 rounded-">
-                  <h1 className="text-4xl 2xl:text-7xl md:text-5xl font-bold mb-4 text-orange-400">
+                <div className="md:w-1/2 2xl:w-[60%] mb-8 md:mb-0 p-3">
+                  <h1 className="text-4xl 2xl:text-7xl md:text-5xl font-bold mb-4 text-orange-400 [text-shadow:_3px_3px_0_rgb(0_0_0_/_80%)]">
                     Book Events with Ease
                   </h1>
-                  <p className=" 2xl:text-5xl text-lg md:text-xl mb-6 text-white">
+                  <p className=" 2xl:text-5xl text-lg md:text-xl mb-6 text-white [text-shadow:_2px_2px_0_rgb(0_0_0_/_20%)]">
                     Jatra simplifies event booking with a seamless experience
                     for organizers and attendees alike.
                   </p>

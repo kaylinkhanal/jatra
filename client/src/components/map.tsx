@@ -1,18 +1,34 @@
-'use client';
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import 'leaflet-defaulticon-compatibility';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
-import React from 'react';
-import Avatar from './avatar';
-import { DatePickerWithRange } from './datePicker';
-import { useEffect, useState } from "react"
-import type { EventData, VenueData } from "@/lib/types"
-import { Button } from "@/components/ui/button"
-import { Calendar, Check, Clock, MapPin, MapPinIcon, Music, Search, Users, X } from "lucide-react"
-import { formatDate } from "@/lib/utils"
-import { Input } from "./ui/input"
+"use client";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import React from "react";
+import Avatar from "./avatar";
+import { DatePickerWithRange } from "./datePicker";
+import { useEffect, useState } from "react";
+import type { EventData, VenueData } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import {
+  Calendar,
+  Check,
+  Clock,
+  MapPin,
+  MapPinIcon,
+  Music,
+  Search,
+  Users,
+  X,
+} from "lucide-react";
+import { formatDate } from "@/lib/utils";
+import { Input } from "./ui/input";
 import {
   Dialog,
   DialogContent,
@@ -21,18 +37,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
-import VenueBookingSheet from './VenueDetails';
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import VenueBookingSheet from "./VenueDetails";
 
 interface MapProps {
-  events: EventData[]
-  venues: VenueData[]
-  onEventSelect: (event: EventData) => void
-  onBookEvent: (eventId: string) => void
+  events: EventData[];
+  venues: VenueData[];
+  onEventSelect: (event: EventData) => void;
+  onBookEvent: (eventId: string) => void;
 }
 
 const createVenueIcon = () => {
@@ -42,136 +65,183 @@ const createVenueIcon = () => {
     iconAnchor: [18, 36],
     popupAnchor: [0, -36],
     className: "venue-marker",
-  })
-}
+  });
+};
 
-function LocationMarker({position , setPosition ,setIsDialogOpen, venueAddress}) {
-
+function LocationMarker({
+  position,
+  setPosition,
+  setIsDialogOpen,
+  venueAddress,
+}) {
   const map = useMapEvents({
     click(e) {
-      if(!position?.lat || !position?.lng){
-        setPosition(e.latlng)
+      if (!position?.lat || !position?.lng) {
+        setPosition(e.latlng);
       }
-     
-    }
-  })
+    },
+  });
 
-  const handleMarkerDragEnd = (event:any) => {
-    console.log(event)
-    setPosition(event.target._latlng)
-      };
+  const handleMarkerDragEnd = (event: any) => {
+    console.log(event);
+    setPosition(event.target._latlng);
+  };
 
   return position === null ? null : (
     <Marker
-    eventHandlers={{
-      dragend: handleMarkerDragEnd,
-    }}
-    draggable={true}  position={position}  icon={createVenueIcon()}>
-      <Popup>
-      {venueAddress}
-      </Popup>
+      eventHandlers={{
+        dragend: handleMarkerDragEnd,
+      }}
+      draggable={true}
+      position={position}
+      icon={createVenueIcon()}
+    >
+      <Popup>{venueAddress}</Popup>
     </Marker>
-  )
+  );
 }
 
-export default function CustomMap({  venues, onEventSelect, onBookEvent }: MapProps) {
-  const [mapCenter, setMapCenter] = useState<[number, number]>([27.700769, 85.30014])
-  const [venueAddress,setVenueAddress] = useState('')
-  const [isClient, setIsClient] = useState(false)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [isPickStart, setIsPickStart] = useState(false)
-  const [position, setPosition] = useState(null)
-  const {userDetails} = useSelector(state=> state.user)
-  const [venueDetailsOpen, setVenueDetailsOpen]=  useState(false)
-  const [venueDetails, setVenueDetails]=useState({})
-  const [venueBookings,setVenueBookings] = useState([])
-  const [selectedVenueId,setSelectedVenueId] = useState('')
+export default function CustomMap({
+  venues,
+  onEventSelect,
+  onBookEvent,
+}: MapProps) {
+  const [mapCenter, setMapCenter] = useState<[number, number]>([
+    27.700769, 85.30014,
+  ]);
+  const [venueAddress, setVenueAddress] = useState("");
+  const [isClient, setIsClient] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPickStart, setIsPickStart] = useState(false);
+  const [position, setPosition] = useState(null);
+  const { userDetails } = useSelector((state) => state.user);
+  const [venueDetailsOpen, setVenueDetailsOpen] = useState(false);
+  const [venueDetails, setVenueDetails] = useState({});
+  const [venueBookings, setVenueBookings] = useState([]);
+  const [selectedVenueId, setSelectedVenueId] = useState("");
   useEffect(() => {
-    setIsClient(true)
-  }, [])
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (!isClient) {
-      return
+      return;
     }
-    delete (L.Icon.Default.prototype as any)._getIconUrl
+    delete (L.Icon.Default.prototype as any)._getIconUrl;
 
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: "/marker-icon-2x.png",
       iconUrl: "/marker-icon.png",
       shadowUrl: "/marker-shadow.png",
-    })
-  }, [isClient])
+    });
+  }, [isClient]);
 
   const createEventIcon = (isFull: boolean, isBooked: boolean) => {
     return new L.Icon({
-      iconUrl: isBooked ? "/booked-event-marker.svg" : isFull ? "/full-event-marker.svg" : "/event-marker.svg",
+      iconUrl: isBooked
+        ? "/booked-event-marker.svg"
+        : isFull
+        ? "/full-event-marker.svg"
+        : "/event-marker.svg",
       iconSize: [40, 40],
       iconAnchor: [20, 40],
       popupAnchor: [0, -40],
-      className: `event-marker ${isFull ? "event-full" : ""} ${isBooked ? "event-booked" : ""}`,
-    })
-  }
+      className: `event-marker ${isFull ? "event-full" : ""} ${
+        isBooked ? "event-booked" : ""
+      }`,
+    });
+  };
 
-  const getLocationDetails= async()=>{
-    const {data} = await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${position?.lat}&lon=${position?.lng}&apiKey=2bcb950de5554a3bb5b51add57015ba1`)
-    if(data) setVenueAddress(data.features?.[0]?.properties?.formatted)
-   }
+  const getLocationDetails = async () => {
+    const { data } = await axios.get(
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${position?.lat}&lon=${position?.lng}&apiKey=2bcb950de5554a3bb5b51add57015ba1`
+    );
+    if (data) setVenueAddress(data.features?.[0]?.properties?.formatted);
+  };
 
-  useEffect(()=>{
-    if(position?.lat) {
-      getLocationDetails()
+  useEffect(() => {
+    if (position?.lat) {
+      getLocationDetails();
     }
-  },[position?.lat])
+  }, [position?.lat]);
 
+  const handleResetPick = () => {
+    setIsPickStart(false);
+  };
 
-const handleResetPick =  () => {
-  setIsPickStart(false)
-}
-
-const saveVenue =async () => {
- const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/venue`,  {
-  capacity: 500,
-  longitude: position?.lng,
-  title: "PARTY TITLE",
-  latitude: position?.lat,
-  venueImage: "https://example.com/centralpark.jpg",
-  address: venueAddress,
-})
-
-}
-const handleVenueClick = async(id) => {
-  setVenueDetailsOpen(!venueDetailsOpen)
- const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
- if(data) setVenueBookings(data)
-  setSelectedVenueId(id)
-
-}
-
+  const saveVenue = async () => {
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/venue`,
+      {
+        capacity: 500,
+        longitude: position?.lng,
+        title: "PARTY TITLE",
+        latitude: position?.lat,
+        venueImage: "https://example.com/centralpark.jpg",
+        address: venueAddress,
+      }
+    );
+  };
+  const handleVenueClick = async (id) => {
+    setVenueDetailsOpen(!venueDetailsOpen);
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`
+    );
+    if (data) setVenueBookings(data);
+    setSelectedVenueId(id);
+  };
 
   return (
-    <MapContainer  center={[27.700769, 85.300140]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%', zIndex:899 }}>
-     {isPickStart && <LocationMarker setPosition={setPosition} venueAddress={venueAddress} position={position} setIsDialogOpen={setIsDialogOpen}/>}
-     
+    <MapContainer
+      center={[27.700769, 85.30014]}
+      zoom={13}
+      scrollWheelZoom={false}
+      style={{ height: "100%", width: "100%", zIndex: 899 }}
+    >
+      {isPickStart && (
+        <LocationMarker
+          setPosition={setPosition}
+          venueAddress={venueAddress}
+          position={position}
+          setIsDialogOpen={setIsDialogOpen}
+        />
+      )}
+
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <div className="z-999 absolute flex right-40 top-6">
-    
-     {isPickStart ? ( <div className='flex gap-2'><Button>Pick On Map  <MapPinIcon/> </Button>
-     <Button onClick={()=>handleResetPick()}><X /></Button> 
-      <Button onClick={()=> setIsDialogOpen(true)} className='z-9999'><Check /></Button> </div>)
-      :
-      userDetails?.data?.role == 'admin' &&  <Button className='bg-orange-400 rounded mx-2' onClick={()=>setIsPickStart(true)}>Add Venue</Button>}
+      <div className="z-999 absolute flex right-45 gap-4 top-6">
+        {isPickStart ? (
+          <div className="flex gap-2">
+            <Button>
+              Pick On Map <MapPinIcon />{" "}
+            </Button>
+            <Button onClick={() => handleResetPick()}>
+              <X />
+            </Button>
+            <Button onClick={() => setIsDialogOpen(true)} className="z-9999">
+              <Check />
+            </Button>{" "}
+          </div>
+        ) : (
+          userDetails?.data?.role == "admin" && (
+            <Button
+              className="bg-orange-400 rounded mx-2"
+              onClick={() => setIsPickStart(true)}
+            >
+              Add Venue
+            </Button>
+          )
+        )}
         <DatePickerWithRange />
       </div>
 
-      <div className="z-999 absolute right-20 top-6">
-        <Avatar/>
+      <div className="z-999 absolute right-25 top-6">
+        <Avatar />
       </div>
-        <div className="absolute left-24 top-4 z-999 bg-white">
+      <div className="absolute left-24 top-4 z-999 bg-white">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -180,15 +250,13 @@ const handleVenueClick = async(id) => {
             className="w-full pl-8"
           />
         </div>
-        </div>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      </div>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-
-
-        {/* {events.map((event) => (
+      {/* {events.map((event) => (
           <Marker
             key={event.id}
             position={[event.venue.latitude, event.venue.longitude]}
@@ -263,22 +331,22 @@ const handleVenueClick = async(id) => {
           </Marker>
         ))} */}
 
-        {venues.map((venue) => (
-          <Marker key={venue.id}
+      {venues.map((venue) => (
+        <Marker
+          key={venue.id}
           eventHandlers={{
             click: (e) => {
-              handleVenueClick(venue._id)
-              setVenueDetails(venue)
+              handleVenueClick(venue._id);
+              setVenueDetails(venue);
             },
           }}
-          position={[venue.latitude, venue.longitude]} icon={createVenueIcon()}>
-     
-          </Marker>
-        ))}
+          position={[venue.latitude, venue.longitude]}
+          icon={createVenueIcon()}
+        ></Marker>
+      ))}
 
-<Sheet  onOpenChange={setVenueDetailsOpen} open={venueDetailsOpen}>
-
-  {/* <SheetContent className='z-999'>
+      <Sheet onOpenChange={setVenueDetailsOpen} open={venueDetailsOpen}>
+        {/* <SheetContent className='z-999'>
     <SheetHeader>
       <SheetTitle>Book the venue!!</SheetTitle>
       <SheetDescription>
@@ -296,54 +364,60 @@ const handleVenueClick = async(id) => {
       
     </SheetHeader>
   </SheetContent> */}
-  <VenueBookingSheet selectedVenueId={selectedVenueId} venueDetails={venueDetails} venueBookings={venueBookings} />
-</Sheet>
+        <VenueBookingSheet
+          selectedVenueId={selectedVenueId}
+          venueDetails={venueDetails}
+          venueBookings={venueBookings}
+        />
+      </Sheet>
 
-
-
-<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Create New Venue</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] z-999">
-        <DialogHeader>
-          <DialogTitle>Create New Venue</DialogTitle>
-          <DialogDescription>
-            Co-ordinates: {position?.lat}, {position?.lng}
-        
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="venueTitle" className="text-right">
-              Venue Title
-            </Label>
-            <Input id="venueTitle"  className="col-span-3" />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline">Create New Venue</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px] z-999">
+          <DialogHeader>
+            <DialogTitle>Create New Venue</DialogTitle>
+            <DialogDescription>
+              Co-ordinates: {position?.lat}, {position?.lng}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="venueTitle" className="text-right">
+                Venue Title
+              </Label>
+              <Input id="venueTitle" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="capacity" className="text-right">
+                Capacity
+              </Label>
+              <Input id="capacity" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="capacity" className="text-right">
+                Address
+              </Label>
+              <Input
+                readOnly
+                value={venueAddress}
+                id="capacity"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="capacity" className="text-right">
+                Image
+              </Label>
+              <Input type="file" id="capacity" className="col-span-3" />
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="capacity" className="text-right">
-              Capacity
-            </Label>
-            <Input id="capacity"  className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="capacity" className="text-right">
-              Address
-            </Label>
-            <Input readOnly value={venueAddress} id="capacity"  className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="capacity" className="text-right">
-              Image
-            </Label>
-            <Input type='file' id="capacity"  className="col-span-3" />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={saveVenue}>Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-      </MapContainer>
-  )
+          <DialogFooter>
+            <Button onClick={saveVenue}>Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </MapContainer>
+  );
 }

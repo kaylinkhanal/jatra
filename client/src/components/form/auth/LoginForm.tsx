@@ -13,17 +13,23 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "@/lib/redux/features/user/userSlice";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginForm = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useDispatch()
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleLogin = async (values: any) => {
     try {
       const res = await axios.post("/api/auth/login", values);
       if (res.status == 200 || res.status == 201) {
         toast.success(res.data.msg);
-        dispatch(addUserDetails(res.data))
+        dispatch(addUserDetails(res.data));
         router.push("/home");
       }
     } catch (err: any) {
@@ -59,30 +65,41 @@ const LoginForm = () => {
             <p className="text-red-500 text-sm">{formik.errors.email}</p>
           )}
         </div>
-        <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-          </div>
+        
+        <div className="grid gap-2 relative">
+          <Label htmlFor="password">Password</Label>
           <Input
             id="password"
-            type="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
             onChange={formik.handleChange}
             value={formik.values.password}
             placeholder="Enter your Password"
           />
-          <div
-            onClick={() => setIsForgetPasswordModelOpen(true)}
-            className="ml-auto cursor-pointer text-xs  hover:underline"
+          <button
+            type="button"
+            className="absolute inset-y-0 top-6 right-2 flex items-center px-2 text-gray-500 cursor-pointer"
+            onClick={handleTogglePasswordVisibility}
           >
-            Forgot your password?
-          </div>
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
           {formik.touched.password && formik.errors.password && (
             <p className="text-red-500 text-sm">{formik.errors.password}</p>
           )}
         </div>
+        <div
+          onClick={() => setIsForgetPasswordModelOpen(true)}
+          className="ml-auto cursor-pointer text-xs  hover:underline"
+        >
+          Forgot your password?
+        </div>
         <Button
           type="submit"
-        className="w-full bg-orange-600 hover:bg-orange-500 cursor-pointer"
+          className="w-full bg-orange-600 hover:bg-orange-500 cursor-pointer"
           disabled={formik.isSubmitting}
         >
           {formik.isSubmitting ? "Logging in..." : "Submit"}
