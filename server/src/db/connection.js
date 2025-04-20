@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-
 const dbConnect  = async ()=>{
     try {
-        const res = await mongoose.connect(`${process.env.MONGODB_CONNECTION_URI}/jatraDB`);
+        const res = await mongoose.connect(`${process.env.MONGODB_CONNECTION_URI}/jatradb`);
         if(res) console.log("db connection success")
     }catch(err){
         console.error(err)

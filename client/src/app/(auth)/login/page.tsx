@@ -2,9 +2,12 @@
 import LoginForm from "@/components/form/auth/LoginForm";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+
 
 const LoginPage = () => {
   const router = useRouter();
+  const [msg , setMsg] = useState('');
 
   // bg-[#B4EBE6]
   return (
@@ -39,6 +42,9 @@ const LoginPage = () => {
                 Login to your Jatra account.
               </p>
             </div>
+
+
+            {msg}
             <LoginForm />
           </div>
         </div>

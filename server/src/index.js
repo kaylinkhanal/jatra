@@ -1,40 +1,54 @@
 const express = require('express')
-const app = express()
+const { Server } = require('socket.io');
 require('dotenv').config()
 const port = process.env.PORT
 const UserRoute = require('./routes/user')
+const { createServer } = require('http');
 const VenueRoute = require('./routes/venue')
 const BookingRoute = require('./routes/booking')
 const EventRoute = require('./routes/event')
-
-
-const { rateLimit } = require('express-rate-limit')
-const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, 
-	limit: 10000, 
-	standardHeaders: 'draft-8', 
-	legacyHeaders: false, 
-})
-
-app.use(limiter)
 const dbConnect = require('./db/connection')
-const cors = require('cors')
-
-app.use(cors({
+const cors = require('cors');
+const Booking = require('./models/booking');
+const app = express()
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
     origin: "http://localhost:3000",
-    methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
-  }))
-app.use(express.json())
 
+  }
+});
+app.use(express.json())
+app.use(cors())
 dbConnect()
+
 app.use(UserRoute)
 app.use(VenueRoute)
 app.use(EventRoute)
-
 app.use(BookingRoute)
 
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+
+io.on('connection', (socket) => {
+
+  socket.on('message', (message) => {
+    io.emit('message', message);
+  });
+
+  socket.on('eventRequest',async(eventRequest) => {
+    const {venue,event, booked_date} =eventRequest
+    await Booking.create({venue,event, booked_date})
+    const allrequest =await Booking.find({venue})
+    io.emit('eventRequest', allrequest);
+  });
+
+  
+
+
+});
+
+server.listen(port, () => {
+  console.log(`Socket.IO server listening on port ${port}`);
+});
+

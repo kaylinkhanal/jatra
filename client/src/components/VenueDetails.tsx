@@ -12,13 +12,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { io } from 'socket.io-client';
+import { setNotification, setNotificationList } from "@/lib/redux/features/notification/notificationSlice";
+
+const socket = io('http://localhost:9000');
 
 export default function VenueBookingSheet({ venueDetails, venueBookings ,selectedVenueId}) {
+  const dispatch = useDispatch();
   const [date, setDate] = useState<Date>();
   const [events,setEvents] = useState([])
+  const [eventId, setEventId] = useState(null)
   const {userDetails} =useSelector(state=>state.user)
-  const formatDate = (dateString) => {
+  const formatDate = (dateString:Date) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
@@ -27,7 +34,7 @@ export default function VenueBookingSheet({ venueDetails, venueBookings ,selecte
     });
   };
 
-  const formatTime = (dateString) => {
+  const formatTime = (dateString:string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -63,24 +70,35 @@ export default function VenueBookingSheet({ venueDetails, venueBookings ,selecte
   });
 
   const handleBookingEvent = async(values) => {
-    await  axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,
-        {
-          "event": "65f0123456789abcdef01234",
-          "venue": selectedVenueId,
-          "booked_date": date,
-          "userId": userDetails?.data._id
-        }
-      )
+    socket.emit('eventRequest',  {
+      "event": eventId,
+      "venue": selectedVenueId,
+      "booked_date": date,
+      "userId": userDetails?.data._id
+    });
   };
 
   const fetchUserEvents = async() => {
    const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/events/${userDetails?.data._id}`)
    setEvents(data)
   }
+  useEffect(()=>{
+    socket.on('connection', ()=> console.log("socket connected"));
+  },[])
+  
+
+  useEffect(() => {
+    socket.on('eventRequest', (eventRequest) => {
+      dispatch(setNotification(true))
+     dispatch(setNotificationList(eventRequest))
+    });
+  }
+  , []);
+
 
   useEffect(()=>{
-    fetchUserEvents()
-  },[])
+    if(!eventId)  fetchUserEvents()
+  },[eventId])
 
   return (
     <SheetContent className="overflow-y-auto z-999 p-2">
@@ -162,7 +180,6 @@ export default function VenueBookingSheet({ venueDetails, venueBookings ,selecte
             }}
             validationSchema={bookingSchema}
             onSubmit={(values) => {
-              debugger;
               handleBookingEvent(values);
             }}
           >
@@ -199,11 +216,14 @@ export default function VenueBookingSheet({ venueDetails, venueBookings ,selecte
                     <div className="text-red-500 text-xs mt-1">{errors.date}</div>
                   )}
                 </div>
-                  {JSON.stringify(events)}
-           
-
+                  <select onChange={(e) => setEventId(e.target.value)} className="w-full border border-gray-300 rounded-md p-2">
+                 
+                    {events.map((event) => (
+                      <option  value={event._id}>{event.title}</option>
+                    ))}
+                  </select>
                 <button
-                onClick={handleBookingEvent}
+
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium py-2 px-3 rounded transition duration-200 mt-1"
                 >
                   Book Venue

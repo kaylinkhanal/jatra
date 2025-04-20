@@ -1,3 +1,4 @@
+'use client'
 import {
     Sidebar,
     SidebarContent,
@@ -10,8 +11,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
   } from "@/components/ui/sidebar"
-import { Calendar, ChartBar, Home, Inbox, MessageCircle } from "lucide-react"
+import { BellDotIcon, BellIcon, Calendar, ChartBar, Home, Inbox, MessageCircle } from "lucide-react"
 import Link from "next/link"
+import { useSelector } from "react-redux"
   const items = [
     {
       title: "Home",
@@ -33,11 +35,29 @@ import Link from "next/link"
       url: "/shop",
       icon: Calendar,
     },
-    
+    {
+      title: "Notification",
+      url: "/notification",
+  
+    },
   ]
-   
-  export function AppSidebar() {
 
+
+
+  export function AppSidebar() {
+    const {isNotified} = useSelector((state) => state.notification)
+    
+    
+    const NotificationAlert = () => {
+      if (isNotified) return(
+        <div className="relative">
+          <BellIcon/>
+          <span className="absolute -top-1 -right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+        </div>
+      )
+      return <BellIcon/>
+    }
+     
     return (
         <Sidebar collapsible="icon" >
         <SidebarContent>
@@ -49,7 +69,7 @@ import Link from "next/link"
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <Link href={item.url}>
-                        <item.icon />
+                       {item.title === 'Notification' ? <NotificationAlert/>: <item.icon />}
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>

@@ -8,12 +8,15 @@ import { persistStore, persistReducer,  FLUSH,
   REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import logger from 'redux-logger';
+import  notificationSlice  from './features/notification/notificationSlice';
 const persistConfig = {
     key: "root",
     storage,
+    blacklist: ['notification']
   };
 const rootReducer = combineReducers({ 
-    user: userSlice
+    user: userSlice,
+    notification: notificationSlice
 })
   
 const persistedReducer = persistReducer(persistConfig, rootReducer);
