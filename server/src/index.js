@@ -10,6 +10,7 @@ const EventRoute = require('./routes/event')
 const dbConnect = require('./db/connection')
 const cors = require('cors');
 const Booking = require('./models/booking');
+const User = require('./models/user');
 const app = express()
 const server = createServer(app);
 const io = new Server(server, {
@@ -39,7 +40,7 @@ io.on('connection', (socket) => {
   socket.on('eventRequest',async(eventRequest) => {
     const {venue,event, booked_date} =eventRequest
     await Booking.create({venue,event, booked_date})
-    const allrequest =await Booking.find({venue})
+    const allrequest =await Booking.find().populate('event venue')
     io.emit('eventRequest', allrequest);
   });
 

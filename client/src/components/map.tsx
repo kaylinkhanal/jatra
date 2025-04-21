@@ -331,9 +331,9 @@ export default function CustomMap({
           </Marker>
         ))} */}
 
-      {venues.map((venue) => (
+      {venues.length> 0 && venues.map((venue) => (
         <Marker
-          key={venue.id}
+          key={venue._id}
           eventHandlers={{
             click: (e) => {
               handleVenueClick(venue._id);

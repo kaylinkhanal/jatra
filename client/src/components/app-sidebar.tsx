@@ -11,9 +11,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
   } from "@/components/ui/sidebar"
+import { setNotification } from "@/lib/redux/features/notification/notificationSlice"
 import { BellDotIcon, BellIcon, Calendar, ChartBar, Home, Inbox, MessageCircle } from "lucide-react"
 import Link from "next/link"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
   const items = [
     {
       title: "Home",
@@ -46,7 +47,7 @@ import { useSelector } from "react-redux"
 
   export function AppSidebar() {
     const {isNotified} = useSelector((state) => state.notification)
-    
+    const dispatch = useDispatch()
     
     const NotificationAlert = () => {
       if (isNotified) return(
@@ -56,6 +57,12 @@ import { useSelector } from "react-redux"
         </div>
       )
       return <BellIcon/>
+    }
+    
+    const handleNotification = (title) => {
+      if (title === 'Notification') {
+        dispatch(setNotification(false))
+      }
     }
      
     return (
@@ -68,7 +75,7 @@ import { useSelector } from "react-redux"
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <Link href={item.url}>
+                      <Link onClick={()=>handleNotification(item.title)} href={item.url}>
                        {item.title === 'Notification' ? <NotificationAlert/>: <item.icon />}
                         <span>{item.title}</span>
                       </Link>
