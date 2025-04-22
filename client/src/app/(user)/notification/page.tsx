@@ -1,4 +1,5 @@
 'use client';
+import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -6,15 +7,19 @@ const Notification = () => {
 
   const { notificationList } = useSelector((state) => state.notification);
   const [notifications, setNotifications] = React.useState(notificationList);
-  const fetchNotification = () => {
+  const fetchNotification = async() => {
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/notifications`)
 
+    if (data) {
+      setNotifications(data);
+    }
   }
   useEffect(()=>{
     fetchNotification()
   },[])
   return (
     <div className="space-y-4 p-4">
-      {notifications.length > 0 ? notificationList.map((notification) => (
+      {notifications.length > 0 ? notifications.map((notification) => (
         <div
           key={notification._id}
           className="bg-white rounded-md shadow-md p-4 border border-gray-200"
