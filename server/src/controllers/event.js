@@ -19,12 +19,17 @@ const Event = require('../models/event')
       return res?.status(500).json({message: err.message})
     }
   }
-  
 
+  const createEvent = async(req, res) => {
+    try{
+      const data = await Event.create(req.body)
+      return res.status(200).json({message: "Event created Successful", data})
+    }catch(err){
+      return res?.status(500).json({message: err.message})
+    }
+  }
 
-
-
-module.exports = {getAllEvents,getEventsOfAUser }
+module.exports = {getAllEvents,getEventsOfAUser, createEvent }
 
 
 
