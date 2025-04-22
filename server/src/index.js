@@ -11,6 +11,7 @@ const dbConnect = require('./db/connection')
 const cors = require('cors');
 const Booking = require('./models/booking');
 const User = require('./models/user');
+const notificationRoute = require('./routes/notification')
 const app = express()
 const server = createServer(app);
 const io = new Server(server, {
@@ -27,7 +28,7 @@ app.use(UserRoute)
 app.use(VenueRoute)
 app.use(EventRoute)
 app.use(BookingRoute)
-
+app.use(notificationRoute)
 
 
 
