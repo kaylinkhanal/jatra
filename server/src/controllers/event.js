@@ -1,6 +1,5 @@
 const Event = require('../models/event')
 
-
   const getAllEvents = async(req, res) => {
     try{
       const data = await Event.find()

@@ -19,8 +19,9 @@ const eventSchema = new mongoose.Schema({
     required: true 
   },
   booked_by: { 
-    type: String, 
-    required: true 
+    ref: "User", 
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   },
   artists: [String],
   image: { 
