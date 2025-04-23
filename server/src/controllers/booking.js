@@ -56,5 +56,19 @@ const sendEmail = require('../utils/mail')
       return res?.status(500).json({message: err.message})
       }
   }
-module.exports = { getAllBookings ,createBooking,getBookingsByVenueId}
+
+  const updateBookingStatus = async (req, res) => {
+    const {bookingId} = req.params
+    const {status} = req.body
+    try{
+      await Booking.findByIdAndUpdate(bookingId, {status})
+      return res?.status(200).json({message: "Booking status updated successfully"})
+    }
+    catch(err){
+      return res?.status(500).json({message: err.message})
+    }
+  }
+
+
+module.exports = { getAllBookings ,createBooking,getBookingsByVenueId, updateBookingStatus}
 
