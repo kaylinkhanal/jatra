@@ -20,8 +20,12 @@ const Notification = () => {
 
   const { notificationList } = useSelector((state) => state.notification);
   const [notifications, setNotifications] = React.useState(notificationList);
-  const fetchNotification = () => {
+  const fetchNotification = async() => {
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/notifications`)
 
+    if (data) {
+      setNotifications(data);
+    }
   }
   useEffect(()=>{
     fetchNotification()
@@ -181,6 +185,7 @@ const Notification = () => {
       )}
     </div>
   </div>
+
   );
 };
 

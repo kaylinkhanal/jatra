@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-
+import { cookies } from 'next/headers';
 
 
 export async function POST(request: Request) {
@@ -20,6 +20,16 @@ export async function POST(request: Request) {
     }
 
     const data = await response.json();
+    const cookieStore = cookies();
+
+    cookieStore.set('token', data.token, {
+      httpOnly: true,
+      secure: true, 
+      maxAge: 60 * 60 * 24 * 7,
+      path: '/', 
+    });
+
+
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error('Login error:', error);
