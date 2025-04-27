@@ -1,27 +1,35 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-const openRoutes = [
-    '/login',
-    '/register',
-    '/forgot-password',
-    '/reset-password',
-    '/about',
-    '/contact',
-    '/terms-of-service',
-    '/privacy-policy',
-]
+
+const publicRoutes = ['/', '/login', '/register']
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
     const pathname = request.nextUrl.pathname;
+
     console.log('Middleware running for:', pathname);
     console.log('Token:', token);
 
-    if (openRoutes.includes(pathname) && !token) {
-        return NextResponse.next();
-    } else if (token && !openRoutes.includes(pathname)) {
-        return NextResponse.next();
+    if (!token) {
+        if (publicRoutes.includes(pathname)) {
+            console.log('Public route, allowing access');
+            return NextResponse.next();
+        } else {
+            console.log('No token, redirecting to login');
+            return NextResponse.redirect(new URL('/login', request.url));
+        }   
+    } else {
+        if (pathname === '/login' || pathname === '/register') {
+            console.log('Authenticated user, redirecting to home');
+            return NextResponse.redirect(new URL('/home', request.url));
+        } else {
+            console.log('Authenticated user, allowing access');
+            return NextResponse.next();
+        }
     }
-    return NextResponse.redirect(new URL('/login', request.url));
 
 }
+
+export const config = {
+    matcher: ['/', "/login", "/register", "/home", "/notification"],
+  };

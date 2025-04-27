@@ -5,11 +5,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { logout } from '@/lib/redux/features/user/userSlice'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 const Avatar = () => {
     const dispatch = useDispatch()
     const router=  useRouter()
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await axios.post("/api/auth/logout", {})
         dispatch(logout())
         router.push('/')
     }
